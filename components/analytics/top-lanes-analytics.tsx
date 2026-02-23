@@ -34,7 +34,7 @@ export function TopLanesAnalytics({ data }: TopLanesAnalyticsProps) {
   const maxCalls = Math.max(...items.map((i) => i.calls));
 
   return (
-    <Card className="p-5 shadow-sm">
+    <Card className="p-5">
       <h3 className="mb-4 text-sm font-semibold text-gray-900">
         Top Lanes by Volume
       </h3>

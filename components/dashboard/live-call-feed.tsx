@@ -1,6 +1,7 @@
 "use client";
 
-import { CrossCard } from "@/components/ui/cross-card";
+import { useRouter } from "next/navigation";
+import { Card } from "@/components/ui/card";
 import { CallSummary } from "@/lib/types";
 import { StatusDot } from "@/components/shared/status-dot";
 import { formatLane, formatCurrency, formatRelativeTime } from "@/lib/utils";
@@ -10,10 +11,12 @@ interface LiveCallFeedProps {
 }
 
 export function LiveCallFeed({ calls }: LiveCallFeedProps) {
+  const router = useRouter();
+
   return (
-    <CrossCard>
+    <Card className="overflow-hidden p-0">
       <div className="flex items-center justify-between px-5 pb-2 pt-4">
-        <h3 className="text-sm font-semibold text-gray-900">Live Call Feed</h3>
+        <h3 className="text-sm font-semibold text-gray-900">Call Feed</h3>
         <span className="text-xs text-gray-400">Just now</span>
       </div>
       <div className="max-h-72 overflow-y-auto">
@@ -21,6 +24,7 @@ export function LiveCallFeed({ calls }: LiveCallFeedProps) {
           <div
             key={call.id}
             className="grid cursor-pointer grid-cols-[8px_1fr_auto] items-center gap-2.5 border-t border-gray-50 px-5 py-2.5 transition-colors hover:bg-gray-50"
+            onClick={() => router.push(`/calls/${call.call_id}`)}
           >
             <StatusDot status={mapOutcomeToStatus(call.outcome)} />
             <div>
@@ -28,7 +32,8 @@ export function LiveCallFeed({ calls }: LiveCallFeedProps) {
                 {call.carrier_name ?? "Unknown Carrier"}
               </div>
               <div className="text-[11px] text-gray-400">
-                {call.mc_number ?? ""} · {formatLane(call.lane_origin, call.lane_destination)}
+                {call.mc_number ?? ""} ·{" "}
+                {formatLane(call.lane_origin, call.lane_destination)}
               </div>
             </div>
             <div className="text-right">
@@ -42,7 +47,7 @@ export function LiveCallFeed({ calls }: LiveCallFeedProps) {
           </div>
         ))}
       </div>
-    </CrossCard>
+    </Card>
   );
 }
 

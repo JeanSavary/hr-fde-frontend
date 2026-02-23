@@ -3,9 +3,13 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { X } from "lucide-react";
+import { X, ArrowRight } from "lucide-react";
 import { CallSummary } from "@/lib/types";
-import { SentimentBadge, EquipmentBadge, OutcomeBadge } from "@/components/shared/status-badge";
+import {
+  SentimentBadge,
+  EquipmentBadge,
+  OutcomeBadge,
+} from "@/components/shared/status-badge";
 import { formatLane, formatCurrency, formatDuration } from "@/lib/utils";
 
 interface CallSidebarProps {
@@ -16,48 +20,66 @@ interface CallSidebarProps {
 export function CallSidebar({ call, onClose }: CallSidebarProps) {
   const rateDiff =
     call.initial_rate && call.final_rate
-      ? (((call.final_rate - call.initial_rate) / call.initial_rate) * 100).toFixed(1)
+      ? (
+          ((call.final_rate - call.initial_rate) / call.initial_rate) *
+          100
+        ).toFixed(1)
       : null;
 
   return (
-    <Card className="sticky top-20 self-start overflow-hidden shadow-sm animate-in slide-in-from-right-4">
+    <Card className="sticky top-20 w-[380px] shrink-0 self-start overflow-hidden animate-in slide-in-from-right-4 py-4">
       {/* Header */}
       <div className="flex items-start justify-between border-b border-gray-100 px-5 py-4">
         <div>
-          <div className="text-[15px] font-semibold text-gray-900">{call.carrier_name ?? "Unknown"}</div>
-          <div className="font-mono text-[11px] text-gray-400">{call.mc_number ?? "\u2014"}</div>
+          <div className="text-[15px] font-semibold text-gray-900">
+            {call.carrier_name ?? "Unknown"}
+          </div>
+          <div className="font-mono text-[11px] text-gray-400">
+            {call.mc_number ?? "\u2014"}
+          </div>
         </div>
-        <button onClick={onClose} className="rounded-md p-1 text-gray-300 transition-colors hover:bg-gray-100 hover:text-gray-500">
+        <button
+          onClick={onClose}
+          className="rounded-md p-1 text-gray-300 transition-colors hover:bg-gray-100 hover:text-gray-500"
+        >
           <X className="h-4 w-4" />
         </button>
       </div>
 
-      <div className="px-5 py-4 space-y-4">
+      <div className="px-5 pb-4 space-y-4">
         {/* FMCSA badge */}
         <div className="rounded-lg border-l-[3px] border-emerald-400 bg-emerald-50 px-3 py-2.5">
           <div className="text-[10px] font-semibold uppercase tracking-wider text-emerald-700">
             FMCSA Verified
           </div>
-          <div className="text-[11px] text-emerald-600">Authorized &middot; Insurance Active</div>
+          <div className="text-[11px] text-emerald-600">
+            Authorized &middot; Insurance Active
+          </div>
         </div>
 
         {/* Metadata grid */}
         <div className="grid grid-cols-2 gap-3">
-          {([
-            ["Lane", formatLane(call.lane_origin, call.lane_destination)],
-            ["Equipment", call.equipment_type],
-            ["Outcome", call.outcome],
-            ["Duration", formatDuration(call.duration_seconds)],
-          ] as const).map(([label, value], i) => (
+          {(
+            [
+              ["Lane", formatLane(call.lane_origin, call.lane_destination)],
+              ["Equipment", call.equipment_type],
+              ["Outcome", call.outcome],
+              ["Duration", formatDuration(call.duration_seconds)],
+            ] as const
+          ).map(([label, value], i) => (
             <div key={i}>
-              <div className="text-[10px] font-semibold uppercase tracking-wider text-gray-400">{label}</div>
+              <div className="text-[10px] font-semibold uppercase tracking-wider text-gray-400">
+                {label}
+              </div>
               <div className="mt-0.5">
                 {label === "Outcome" ? (
                   <OutcomeBadge outcome={call.outcome} />
                 ) : label === "Equipment" && value ? (
                   <EquipmentBadge type={value} />
                 ) : (
-                  <div className="text-[13px] font-semibold text-gray-900">{value || "\u2014"}</div>
+                  <div className="text-[13px] font-semibold text-gray-900">
+                    {value || "\u2014"}
+                  </div>
                 )}
               </div>
             </div>
@@ -66,7 +88,9 @@ export function CallSidebar({ call, onClose }: CallSidebarProps) {
 
         {/* Sentiment */}
         <div>
-          <div className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-gray-400">Sentiment</div>
+          <div className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-gray-400">
+            Sentiment
+          </div>
           <SentimentBadge sentiment={call.sentiment} />
         </div>
 
@@ -84,7 +108,9 @@ export function CallSidebar({ call, onClose }: CallSidebarProps) {
                   }`}
                 />
                 <div className="pl-1">
-                  <div className="text-[11px] font-semibold text-gray-700">{step.label}</div>
+                  <div className="text-[11px] font-semibold text-gray-700">
+                    {step.label}
+                  </div>
                   <div className="text-[10px] text-gray-400">{step.detail}</div>
                 </div>
               </div>
@@ -98,7 +124,9 @@ export function CallSidebar({ call, onClose }: CallSidebarProps) {
             {call.initial_rate && (
               <div>
                 <div className="text-[10px] text-gray-400">Initial</div>
-                <div className="text-sm font-bold tabular-nums text-gray-900">{formatCurrency(call.initial_rate)}</div>
+                <div className="text-sm font-bold tabular-nums text-gray-900">
+                  {formatCurrency(call.initial_rate)}
+                </div>
               </div>
             )}
             {call.final_rate && call.initial_rate && (
@@ -107,7 +135,9 @@ export function CallSidebar({ call, onClose }: CallSidebarProps) {
             {call.final_rate && (
               <div>
                 <div className="text-[10px] text-gray-400">Final</div>
-                <div className="text-sm font-bold tabular-nums text-gray-900">{formatCurrency(call.final_rate)}</div>
+                <div className="text-sm font-bold tabular-nums text-gray-900">
+                  {formatCurrency(call.final_rate)}
+                </div>
               </div>
             )}
             {rateDiff && (
@@ -118,16 +148,25 @@ export function CallSidebar({ call, onClose }: CallSidebarProps) {
                     : "bg-rose-50 text-rose-600"
                 }`}
               >
-                {Number(rateDiff) >= 0 ? "+" : ""}{rateDiff}%
+                {Number(rateDiff) >= 0 ? "+" : ""}
+                {rateDiff}%
               </div>
             )}
           </div>
         )}
 
         {/* Actions */}
-        <div className="flex gap-2 pt-1">
-          <Button asChild className="flex-1 bg-gray-900 hover:bg-gray-800" size="sm">
-            <Link href={`/calls/${call.call_id}`}>Full Detail</Link>
+        <div className="space-y-2 pt-1">
+          <Button
+            asChild
+            variant="default"
+            size="sm"
+            className="group w-full justify-between text-white bg-gray-800 hover:bg-gray-800 font-heading font-semibold"
+          >
+            <Link href={`/calls/${call.call_id}`}>
+              View Detail
+              <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+            </Link>
           </Button>
         </div>
       </div>
@@ -154,7 +193,10 @@ function buildTimeline(call: CallSummary) {
 
   if (call.negotiation_rounds > 0) {
     steps.push({
-      label: call.negotiation_rounds === 1 ? "Counter offer" : `${call.negotiation_rounds} rounds`,
+      label:
+        call.negotiation_rounds === 1
+          ? "Counter offer"
+          : `${call.negotiation_rounds} rounds`,
       detail: "Carrier negotiated rate",
     });
   }

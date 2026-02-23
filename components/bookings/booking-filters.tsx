@@ -8,27 +8,29 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { OUTCOME_CONFIG, SENTIMENT_CONFIG } from "@/lib/constants";
+import { EQUIPMENT_CONFIG, SENTIMENT_CONFIG } from "@/lib/constants";
 import { useCallback, useState, useRef } from "react";
 
-interface CallFiltersProps {
-  onFilterChange: (filters: {
-    outcome?: string;
-    sentiment?: string;
-    mc_number?: string;
-  }) => void;
+export interface BookingFilters {
+  equipment_type?: string;
+  sentiment?: string;
+  carrier?: string;
 }
 
-export function CallFilters({ onFilterChange }: CallFiltersProps) {
-  const [mcNumber, setMcNumber] = useState("");
+interface BookingFiltersProps {
+  onFilterChange: (filters: Partial<BookingFilters>) => void;
+}
+
+export function BookingFilters({ onFilterChange }: BookingFiltersProps) {
+  const [carrier, setCarrier] = useState("");
   const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleMcChange = useCallback(
+  const handleCarrierChange = useCallback(
     (value: string) => {
-      setMcNumber(value);
+      setCarrier(value);
       if (debounceRef.current) clearTimeout(debounceRef.current);
       debounceRef.current = setTimeout(() => {
-        onFilterChange({ mc_number: value || undefined });
+        onFilterChange({ carrier: value || undefined });
       }, 300);
     },
     [onFilterChange],
@@ -38,15 +40,15 @@ export function CallFilters({ onFilterChange }: CallFiltersProps) {
     <div className="flex flex-wrap items-center gap-3">
       <Select
         onValueChange={(v) =>
-          onFilterChange({ outcome: v === "all" ? undefined : v })
+          onFilterChange({ equipment_type: v === "all" ? undefined : v })
         }
       >
         <SelectTrigger className="w-44 bg-white">
-          <SelectValue placeholder="All Outcomes" />
+          <SelectValue placeholder="All Equipment" />
         </SelectTrigger>
         <SelectContent className="bg-white">
-          <SelectItem value="all">All Outcomes</SelectItem>
-          {Object.entries(OUTCOME_CONFIG).map(([key, config]) => (
+          <SelectItem value="all">All Equipment</SelectItem>
+          {Object.entries(EQUIPMENT_CONFIG).map(([key, config]) => (
             <SelectItem key={key} value={key}>
               {config.label}
             </SelectItem>
@@ -73,9 +75,9 @@ export function CallFilters({ onFilterChange }: CallFiltersProps) {
       </Select>
 
       <Input
-        placeholder="Search by MC..."
-        value={mcNumber}
-        onChange={(e) => handleMcChange(e.target.value)}
+        placeholder="Search carrier..."
+        value={carrier}
+        onChange={(e) => handleCarrierChange(e.target.value)}
         className="w-44 bg-white"
       />
     </div>

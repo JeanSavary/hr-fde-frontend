@@ -1,8 +1,8 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 export function formatDuration(seconds: number | null): string {
@@ -18,7 +18,7 @@ export function formatCurrency(amount: number | null): string {
     style: "currency",
     currency: "USD",
     minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
+    maximumFractionDigits: 2,
   }).format(amount);
 }
 
@@ -27,7 +27,10 @@ export function formatPercent(value: number | null, decimals = 1): string {
   return `${value.toFixed(decimals)}%`;
 }
 
-export function formatLane(origin: string | null, destination: string | null): string {
+export function formatLane(
+  origin: string | null,
+  destination: string | null,
+): string {
   if (!origin && !destination) return "\u2014";
   return `${origin ?? "?"} \u2192 ${destination ?? "?"}`;
 }

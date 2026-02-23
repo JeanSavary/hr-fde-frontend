@@ -18,7 +18,7 @@ export function TopLanesChart({ data }: TopLanesChartProps) {
   const chartData = data.slice(0, 8);
 
   return (
-    <Card className="p-5 shadow-sm">
+    <Card className="p-5">
       <h3 className="text-sm font-medium text-gray-700">Top Lanes</h3>
       <div className="mt-3 h-52">
         <ResponsiveContainer width="100%" height="100%">

@@ -7,6 +7,9 @@ import {
   CallDetail,
   BookedLoad,
   LoadSearchResponse,
+  Load,
+  LoadListResponse,
+  BookingsListResponse,
   NegotiationSettings,
   PaginatedResponse,
   AnalyticsData,
@@ -19,8 +22,9 @@ const fetcher = async <T>(url: string): Promise<T> => {
   return res.json();
 };
 
-export function useDashboardMetrics() {
-  return useSWR<DashboardMetrics>("/api/dashboard", fetcher, {
+export function useDashboardMetrics(period?: string) {
+  const qs = period ? `?period=${period}` : "";
+  return useSWR<DashboardMetrics>(`/api/dashboard${qs}`, fetcher, {
     refreshInterval: REFRESH_INTERVALS.overview,
     revalidateOnFocus: true,
     dedupingInterval: 5000,
@@ -33,6 +37,7 @@ export function useCalls(params?: {
   mc_number?: string;
   page?: number;
   page_size?: number;
+  period?: string;
 }) {
   const searchParams = new URLSearchParams();
   if (params?.outcome) searchParams.set("outcome", params.outcome);
@@ -40,6 +45,7 @@ export function useCalls(params?: {
   if (params?.mc_number) searchParams.set("mc_number", params.mc_number);
   if (params?.page) searchParams.set("page", String(params.page));
   if (params?.page_size) searchParams.set("page_size", String(params.page_size));
+  if (params?.period) searchParams.set("period", params.period);
   const qs = searchParams.toString();
 
   return useSWR<PaginatedResponse<CallSummary>>(
@@ -64,15 +70,57 @@ export function useCallDetail(callId: string) {
   );
 }
 
-export function useBookings() {
-  return useSWR<BookedLoad[]>("/api/bookings", fetcher, {
-    refreshInterval: REFRESH_INTERVALS.bookings,
+export function useBookings(params?: { page?: number; page_size?: number; period?: string }) {
+  const searchParams = new URLSearchParams();
+  if (params?.page) searchParams.set("page", String(params.page));
+  if (params?.page_size) searchParams.set("page_size", String(params.page_size));
+  if (params?.period) searchParams.set("period", params.period);
+  const qs = searchParams.toString();
+
+  return useSWR<BookingsListResponse>(
+    `/api/bookings${qs ? `?${qs}` : ""}`,
+    fetcher,
+    {
+      refreshInterval: REFRESH_INTERVALS.bookings,
+      revalidateOnFocus: true,
+      dedupingInterval: 5000,
+    }
+  );
+}
+
+export function useLoads(filters: {
+  origin?: string;
+  equipment_type?: string;
+  destination?: string;
+  page?: number;
+  page_size?: number;
+  period?: string;
+}) {
+  // Build GET query params
+  const params = new URLSearchParams();
+  if (filters.origin?.trim()) params.set("origin", filters.origin.trim());
+  if (filters.equipment_type) params.set("equipment_type", filters.equipment_type);
+  if (filters.destination?.trim()) params.set("destination", filters.destination.trim());
+  if (filters.page) params.set("page", String(filters.page));
+  if (filters.page_size) params.set("page_size", String(filters.page_size));
+  if (filters.period) params.set("period", filters.period);
+  const qs = params.toString();
+  const key = `/api/loads${qs ? `?${qs}` : ""}`;
+
+  return useSWR<LoadListResponse>(key, fetcher, {
+    refreshInterval: REFRESH_INTERVALS.loads,
     revalidateOnFocus: true,
     dedupingInterval: 5000,
   });
 }
 
-export function useLoads(filters: {
+export function useLoad(loadId: string | null) {
+  return useSWR<Load>(loadId ? `/api/loads/${loadId}` : null, fetcher, {
+    revalidateOnFocus: false,
+  });
+}
+
+export function useLoadSearch(filters: {
   origin?: string;
   equipment_type?: string;
   destination?: string;

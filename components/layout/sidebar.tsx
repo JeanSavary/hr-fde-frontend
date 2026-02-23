@@ -29,14 +29,14 @@ export function Sidebar() {
     <aside
       className={cn(
         "flex h-screen flex-col border-r border-gray-200 bg-white transition-all duration-250 overflow-hidden",
-        collapsed ? "w-16 min-w-16" : "w-[220px] min-w-[220px]"
+        collapsed ? "w-16 min-w-16" : "w-[220px] min-w-[220px]",
       )}
     >
       {/* Logo */}
       <div
         className={cn(
           "flex items-center gap-3 border-b border-gray-100",
-          collapsed ? "px-4 py-5" : "px-5 py-5"
+          collapsed ? "px-4 py-5" : "px-5 py-5",
         )}
       >
         <div
@@ -50,7 +50,7 @@ export function Sidebar() {
             <div className="text-sm font-semibold tracking-tight whitespace-nowrap">
               Acme Logistics
             </div>
-            <div className="text-[10px] text-gray-400 whitespace-nowrap">
+            <div className="text-[10px] text-gray-500 whitespace-nowrap">
               Carrier Sales AI
             </div>
           </div>
@@ -61,7 +61,9 @@ export function Sidebar() {
       <nav className="flex-1 space-y-0.5 px-2 py-3">
         {navItems.map((item) => {
           const isActive =
-            item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+            item.href === "/"
+              ? pathname === "/"
+              : pathname.startsWith(item.href);
           return (
             <Link
               key={item.href}
@@ -71,7 +73,7 @@ export function Sidebar() {
                 collapsed ? "justify-center py-2.5" : "px-3 py-2.5",
                 isActive
                   ? "bg-gray-100 font-semibold text-gray-900"
-                  : "font-normal text-gray-400 hover:bg-gray-50 hover:text-gray-900"
+                  : "font-normal text-gray-400 hover:bg-gray-50 hover:text-gray-900",
               )}
             >
               <item.icon className="h-[18px] w-[18px] shrink-0" />
@@ -95,7 +97,7 @@ export function Sidebar() {
             collapsed ? "justify-center py-2.5" : "px-3 py-2.5",
             pathname.startsWith("/settings")
               ? "bg-gray-100 font-semibold text-gray-900"
-              : "font-normal text-gray-400 hover:bg-gray-50 hover:text-gray-900"
+              : "font-normal text-gray-400 hover:bg-gray-50 hover:text-gray-900",
           )}
         >
           <Settings className="h-[18px] w-[18px] shrink-0" />
@@ -107,7 +109,7 @@ export function Sidebar() {
       <div
         className={cn(
           "flex items-center gap-2.5 border-t border-gray-100",
-          collapsed ? "justify-center px-2 py-3" : "px-4 py-3"
+          collapsed ? "justify-center px-2 py-3" : "px-4 py-3",
         )}
       >
         <div className="flex h-8 w-8 min-w-8 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-500 text-[11px] font-bold tracking-wide text-white">

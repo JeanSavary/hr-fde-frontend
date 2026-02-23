@@ -1,7 +1,15 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
-import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianGrid } from "recharts";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  ResponsiveContainer,
+  Tooltip,
+  CartesianGrid,
+} from "recharts";
 import { CallSummary } from "@/lib/types";
 
 interface RateTrendChartProps {
@@ -12,7 +20,10 @@ export function RateTrendChart({ calls }: RateTrendChartProps) {
   const byDate = calls
     .filter((c) => c.final_rate)
     .reduce<Record<string, { total: number; count: number }>>((acc, c) => {
-      const date = new Date(c.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+      const date = new Date(c.created_at).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+      });
       if (!acc[date]) acc[date] = { total: 0, count: 0 };
       acc[date].total += c.final_rate!;
       acc[date].count += 1;
@@ -27,7 +38,7 @@ export function RateTrendChart({ calls }: RateTrendChartProps) {
   if (chartData.length < 2) return null;
 
   return (
-    <Card className="p-5 shadow-sm">
+    <Card className="p-5">
       <h3 className="text-sm font-medium text-gray-700">Rate Trends</h3>
       <div className="mt-3 h-52">
         <ResponsiveContainer width="100%" height="100%">
@@ -36,10 +47,24 @@ export function RateTrendChart({ calls }: RateTrendChartProps) {
             <XAxis dataKey="date" tick={{ fontSize: 11 }} />
             <YAxis tick={{ fontSize: 11 }} />
             <Tooltip
-              contentStyle={{ backgroundColor: "#fff", border: "1px solid #E5E7EB", borderRadius: "8px", boxShadow: "0 1px 3px rgba(0,0,0,0.1)" }}
-              formatter={(value: number | undefined) => [`$${value ?? 0}`, "Avg Rate"]}
+              contentStyle={{
+                backgroundColor: "#fff",
+                border: "1px solid #E5E7EB",
+                borderRadius: "8px",
+                boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+              }}
+              formatter={(value: number | undefined) => [
+                `$${value ?? 0}`,
+                "Avg Rate",
+              ]}
             />
-            <Line type="monotone" dataKey="avgRate" stroke="#4F46E5" strokeWidth={2} dot={{ fill: "#4F46E5", r: 3 }} />
+            <Line
+              type="monotone"
+              dataKey="avgRate"
+              stroke="#4F46E5"
+              strokeWidth={2}
+              dot={{ fill: "#4F46E5", r: 3 }}
+            />
           </LineChart>
         </ResponsiveContainer>
       </div>

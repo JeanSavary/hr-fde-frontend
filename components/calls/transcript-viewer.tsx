@@ -16,9 +16,12 @@ function parseTranscript(raw: string): ParsedMessage[] {
     const parsed = JSON.parse(raw);
     if (Array.isArray(parsed)) {
       return parsed.map((msg: { role?: string; content?: string }) => ({
-        role: msg.role === "assistant" || msg.role === "agent" ? "agent"
-          : msg.role === "user" || msg.role === "carrier" ? "carrier"
-          : "system",
+        role:
+          msg.role === "assistant" || msg.role === "agent"
+            ? "agent"
+            : msg.role === "user" || msg.role === "carrier"
+              ? "carrier"
+              : "system",
         content: msg.content ?? "",
       }));
     }
@@ -31,10 +34,16 @@ function parseTranscript(raw: string): ParsedMessage[] {
     .filter((line) => line.trim())
     .map((line) => {
       if (line.match(/^(agent|assistant|ai):/i)) {
-        return { role: "agent" as const, content: line.replace(/^(agent|assistant|ai):\s*/i, "") };
+        return {
+          role: "agent" as const,
+          content: line.replace(/^(agent|assistant|ai):\s*/i, ""),
+        };
       }
       if (line.match(/^(carrier|user|caller):/i)) {
-        return { role: "carrier" as const, content: line.replace(/^(carrier|user|caller):\s*/i, "") };
+        return {
+          role: "carrier" as const,
+          content: line.replace(/^(carrier|user|caller):\s*/i, ""),
+        };
       }
       return { role: "system" as const, content: line };
     });
@@ -56,13 +65,13 @@ export function TranscriptViewer({ transcript }: TranscriptViewerProps) {
       <div className="mb-3 text-[10px] font-semibold uppercase tracking-wider text-gray-400">
         Transcript
       </div>
-      <div className="max-h-[calc(100vh-340px)] space-y-2 overflow-y-auto pr-1">
+      <div className="max-h-[calc(100vh-340px)] space-y-2 overflow-y-auto pr-1 bg-white px-4 py-3 rounded-md">
         {messages.map((msg, i) => (
           <div
             key={i}
             className={cn(
               "flex",
-              msg.role === "agent" ? "justify-end" : "justify-start"
+              msg.role === "agent" ? "justify-end" : "justify-start",
             )}
           >
             <div
@@ -72,14 +81,16 @@ export function TranscriptViewer({ transcript }: TranscriptViewerProps) {
                   ? "bg-gray-900 text-gray-100"
                   : msg.role === "carrier"
                     ? "bg-gray-100 text-gray-800"
-                    : "bg-amber-50 text-amber-700 text-[11px] italic"
+                    : "bg-amber-50 text-amber-700 text-[11px] italic",
               )}
             >
               {msg.role !== "system" && (
-                <span className={cn(
-                  "mb-0.5 block text-[10px] font-medium",
-                  msg.role === "agent" ? "text-gray-500" : "text-gray-400"
-                )}>
+                <span
+                  className={cn(
+                    "mb-0.5 block text-[10px] font-medium",
+                    msg.role === "agent" ? "text-gray-500" : "text-gray-400",
+                  )}
+                >
                   {msg.role === "agent" ? "AI Agent" : "Carrier"}
                 </span>
               )}

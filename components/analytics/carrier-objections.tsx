@@ -27,20 +27,29 @@ export function CarrierObjections({ data }: CarrierObjectionsProps) {
   const total = items.reduce((s, i) => s + i.count, 0);
 
   return (
-    <Card className="p-5 shadow-sm">
+    <Card className="p-5">
       <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-sm font-semibold text-gray-900">Top Carrier Objections</h3>
+        <h3 className="text-sm font-semibold text-gray-900">
+          Top Carrier Objections
+        </h3>
         <span className="text-[11px] text-gray-400">{total} total</span>
       </div>
       <div className="space-y-2.5">
         {items.map((item, i) => (
           <div key={item.reason}>
             <div className="mb-1 flex justify-between">
-              <span className="text-xs font-medium text-gray-900">{item.reason}</span>
-              <span className="font-heading text-[11px] text-gray-400">{item.pct}%</span>
+              <span className="text-xs font-medium text-gray-900">
+                {item.reason}
+              </span>
+              <span className="font-heading text-[11px] text-gray-400">
+                {item.pct}%
+              </span>
             </div>
             <div className="h-1.5 overflow-hidden rounded-full bg-gray-100">
-              <div className={`h-full rounded-full ${BAR_COLORS[i] ?? "bg-indigo-300"}`} style={{ width: `${item.pct}%` }} />
+              <div
+                className={`h-full rounded-full ${BAR_COLORS[i] ?? "bg-indigo-300"}`}
+                style={{ width: `${item.pct}%` }}
+              />
             </div>
           </div>
         ))}

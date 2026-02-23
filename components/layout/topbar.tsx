@@ -68,7 +68,7 @@ export function Topbar() {
         <h1 className="text-[17px] font-bold tracking-tight text-gray-900">
           {title}
         </h1>
-        {subtitle && <p className="mt-0.5 text-xs text-gray-400">{subtitle}</p>}
+        {subtitle && <p className="mt-0.5 text-xs text-gray-500">{subtitle}</p>}
       </div>
 
       {/* Right: Agent status + refresh */}

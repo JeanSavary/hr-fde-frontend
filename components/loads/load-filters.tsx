@@ -2,7 +2,13 @@
 
 import { useRef, useCallback } from "react";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { EQUIPMENT_CONFIG } from "@/lib/constants";
 
 interface LoadFiltersProps {
@@ -20,7 +26,7 @@ export function LoadFilters({ onFilterChange }: LoadFiltersProps) {
         onFilterChange({ origin: value || undefined });
       }, 400);
     },
-    [onFilterChange]
+    [onFilterChange],
   );
 
   const debouncedDest = useCallback(
@@ -30,30 +36,36 @@ export function LoadFilters({ onFilterChange }: LoadFiltersProps) {
         onFilterChange({ destination: value || undefined });
       }, 400);
     },
-    [onFilterChange]
+    [onFilterChange],
   );
 
   return (
     <div className="flex flex-wrap items-center gap-3">
       <Input
         placeholder="Origin city (required)..."
-        className="w-48"
+        className="w-48 bg-white"
         onChange={(e) => debouncedOrigin(e.target.value)}
       />
       <Input
         placeholder="Destination..."
-        className="w-48"
+        className="w-48 bg-white"
         onChange={(e) => debouncedDest(e.target.value)}
       />
       <Select
         defaultValue="dry_van"
-        onValueChange={(v) => onFilterChange({ equipment_type: v === "all" ? undefined : v })}
+        onValueChange={(v) =>
+          onFilterChange({ equipment_type: v === "all" ? undefined : v })
+        }
       >
-        <SelectTrigger className="w-40"><SelectValue placeholder="Equipment" /></SelectTrigger>
-        <SelectContent>
+        <SelectTrigger className="w-40 bg-white">
+          <SelectValue placeholder="Equipment" />
+        </SelectTrigger>
+        <SelectContent className="bg-white">
           <SelectItem value="all">All Equipment</SelectItem>
           {Object.entries(EQUIPMENT_CONFIG).map(([key, config]) => (
-            <SelectItem key={key} value={key}>{config.label}</SelectItem>
+            <SelectItem key={key} value={key}>
+              {config.label}
+            </SelectItem>
           ))}
         </SelectContent>
       </Select>

@@ -10,7 +10,10 @@ interface CallSidebarProps {
 export function CallSidebar({ call }: CallSidebarProps) {
   const rateDiff =
     call.initial_rate && call.final_rate
-      ? (((call.final_rate - call.initial_rate) / call.initial_rate) * 100).toFixed(1)
+      ? (
+          ((call.final_rate - call.initial_rate) / call.initial_rate) *
+          100
+        ).toFixed(1)
       : null;
 
   return (
@@ -53,7 +56,8 @@ export function CallSidebar({ call }: CallSidebarProps) {
         </div>
         {call.negotiation_rounds > 0 && (
           <div className="mt-2 text-[11px] text-gray-400">
-            {call.negotiation_rounds} negotiation round{call.negotiation_rounds !== 1 ? "s" : ""}
+            {call.negotiation_rounds} negotiation round
+            {call.negotiation_rounds !== 1 ? "s" : ""}
           </div>
         )}
       </div>
@@ -72,7 +76,9 @@ export function CallSidebar({ call }: CallSidebarProps) {
                 }`}
               />
               <div className="pl-1">
-                <div className="text-[11px] font-semibold text-gray-700">{step.label}</div>
+                <div className="text-[11px] font-semibold text-gray-700">
+                  {step.label}
+                </div>
                 <div className="text-[10px] text-gray-400">{step.detail}</div>
               </div>
             </div>
@@ -86,12 +92,15 @@ export function CallSidebar({ call }: CallSidebarProps) {
           <div className="mb-3 text-[10px] font-semibold uppercase tracking-wider text-gray-400">
             Key Points
           </div>
-          <ul className="space-y-1.5">
+          <ul className="space-y-1.5 items-center">
             {call.key_points.map((point, i) => (
-              <li key={i} className="flex gap-2 text-[12px] leading-relaxed text-gray-600">
-                <span className="mt-0.5 h-1 w-1 shrink-0 rounded-full bg-indigo-400" />
+              <div
+                key={i}
+                className="flex gap-2 text-[12px] leading-relaxed text-gray-600"
+              >
+                <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-indigo-400" />
                 {point}
-              </li>
+              </div>
             ))}
           </ul>
         </div>
@@ -103,7 +112,9 @@ export function CallSidebar({ call }: CallSidebarProps) {
           <div className="mb-3 text-[10px] font-semibold uppercase tracking-wider text-gray-400">
             AI Summary
           </div>
-          <p className="text-[12px] leading-relaxed text-gray-500">{call.summary}</p>
+          <p className="text-[12px] leading-relaxed text-gray-500">
+            {call.summary}
+          </p>
         </div>
       )}
     </div>
@@ -117,7 +128,10 @@ function buildTimeline(call: CallDetail) {
     label: "Call started",
     detail: call.equipment_type
       ? `${call.equipment_type} · ${call.lane_origin ?? "?"} → ${call.lane_destination ?? "?"}`
-      : new Date(call.created_at).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }),
+      : new Date(call.created_at).toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+        }),
   });
 
   if (call.initial_rate) {
@@ -129,7 +143,10 @@ function buildTimeline(call: CallDetail) {
 
   if (call.negotiation_rounds > 0) {
     steps.push({
-      label: call.negotiation_rounds === 1 ? "Counter offer" : `${call.negotiation_rounds} rounds`,
+      label:
+        call.negotiation_rounds === 1
+          ? "Counter offer"
+          : `${call.negotiation_rounds} rounds`,
       detail: "Carrier negotiated rate",
     });
   }

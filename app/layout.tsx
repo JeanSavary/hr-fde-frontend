@@ -8,28 +8,86 @@ import { Toaster } from "@/components/ui/sonner";
 
 const satoshi = localFont({
   src: [
-    { path: "../public/fonts/Satoshi/Satoshi-Light.ttf", weight: "300", style: "normal" },
-    { path: "../public/fonts/Satoshi/Satoshi-LightItalic.ttf", weight: "300", style: "italic" },
-    { path: "../public/fonts/Satoshi/Satoshi-Regular.ttf", weight: "400", style: "normal" },
-    { path: "../public/fonts/Satoshi/Satoshi-Italic.ttf", weight: "400", style: "italic" },
-    { path: "../public/fonts/Satoshi/Satoshi-Medium.ttf", weight: "500", style: "normal" },
-    { path: "../public/fonts/Satoshi/Satoshi-MediumItalic.ttf", weight: "500", style: "italic" },
-    { path: "../public/fonts/Satoshi/Satoshi-Bold.ttf", weight: "700", style: "normal" },
-    { path: "../public/fonts/Satoshi/Satoshi-BoldItalic.ttf", weight: "700", style: "italic" },
-    { path: "../public/fonts/Satoshi/Satoshi-Black.ttf", weight: "900", style: "normal" },
-    { path: "../public/fonts/Satoshi/Satoshi-BlackItalic.ttf", weight: "900", style: "italic" },
+    {
+      path: "../public/fonts/Satoshi/Satoshi-Light.ttf",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/Satoshi/Satoshi-LightItalic.ttf",
+      weight: "300",
+      style: "italic",
+    },
+    {
+      path: "../public/fonts/Satoshi/Satoshi-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/Satoshi/Satoshi-Italic.ttf",
+      weight: "400",
+      style: "italic",
+    },
+    {
+      path: "../public/fonts/Satoshi/Satoshi-Medium.ttf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/Satoshi/Satoshi-MediumItalic.ttf",
+      weight: "500",
+      style: "italic",
+    },
+    {
+      path: "../public/fonts/Satoshi/Satoshi-Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/Satoshi/Satoshi-BoldItalic.ttf",
+      weight: "700",
+      style: "italic",
+    },
+    {
+      path: "../public/fonts/Satoshi/Satoshi-Black.ttf",
+      weight: "900",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/Satoshi/Satoshi-BlackItalic.ttf",
+      weight: "900",
+      style: "italic",
+    },
   ],
   variable: "--font-satoshi",
 });
 
 const clashGrotesk = localFont({
   src: [
-    { path: "../public/fonts/ClashGrotesk/ClashGrotesk-Extralight.ttf", weight: "200" },
-    { path: "../public/fonts/ClashGrotesk/ClashGrotesk-Light.ttf", weight: "300" },
-    { path: "../public/fonts/ClashGrotesk/ClashGrotesk-Regular.ttf", weight: "400" },
-    { path: "../public/fonts/ClashGrotesk/ClashGrotesk-Medium.ttf", weight: "500" },
-    { path: "../public/fonts/ClashGrotesk/ClashGrotesk-Semibold.ttf", weight: "600" },
-    { path: "../public/fonts/ClashGrotesk/ClashGrotesk-Bold.ttf", weight: "700" },
+    {
+      path: "../public/fonts/ClashGrotesk/ClashGrotesk-Extralight.ttf",
+      weight: "200",
+    },
+    {
+      path: "../public/fonts/ClashGrotesk/ClashGrotesk-Light.ttf",
+      weight: "300",
+    },
+    {
+      path: "../public/fonts/ClashGrotesk/ClashGrotesk-Regular.ttf",
+      weight: "400",
+    },
+    {
+      path: "../public/fonts/ClashGrotesk/ClashGrotesk-Medium.ttf",
+      weight: "500",
+    },
+    {
+      path: "../public/fonts/ClashGrotesk/ClashGrotesk-Semibold.ttf",
+      weight: "600",
+    },
+    {
+      path: "../public/fonts/ClashGrotesk/ClashGrotesk-Bold.ttf",
+      weight: "700",
+    },
   ],
   variable: "--font-clash-grotesk",
 });

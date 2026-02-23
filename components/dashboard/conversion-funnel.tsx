@@ -1,6 +1,6 @@
 "use client";
 
-import { CrossCard } from "@/components/ui/cross-card";
+import { Card } from "@/components/ui/card";
 import { DashboardMetrics } from "@/lib/types";
 
 interface ConversionFunnelProps {
@@ -11,7 +11,7 @@ export function ConversionFunnel({ metrics }: ConversionFunnelProps) {
   const funnelData = metrics.funnel_data ?? deriveFunnel(metrics);
 
   return (
-    <CrossCard>
+    <Card className="p-5">
       <h3 className="mb-4 text-sm font-semibold text-gray-900">
         Conversion Funnel
       </h3>
@@ -48,7 +48,7 @@ export function ConversionFunnel({ metrics }: ConversionFunnelProps) {
           </div>
         ))}
       </div>
-    </CrossCard>
+    </Card>
   );
 }
 

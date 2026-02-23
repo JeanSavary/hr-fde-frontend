@@ -18,28 +18,41 @@ export function NegotiationDepth({ data }: NegotiationDepthProps) {
   const closeWithinOne = items.slice(0, 2).reduce((s, i) => s + i.pct, 0);
 
   return (
-    <Card className="p-5 shadow-sm">
-      <h3 className="mb-4 text-sm font-semibold text-gray-900">Negotiation Depth</h3>
+    <Card className="p-5">
+      <h3 className="mb-4 text-sm font-semibold text-gray-900">
+        Negotiation Depth
+      </h3>
       <div className="space-y-2">
         {items.map((item, i) => (
           <div key={item.round} className="flex items-center gap-2.5">
-            <span className="w-24 text-right text-[11px] text-gray-500">{item.round}</span>
-            <div className="flex-1 overflow-hidden rounded bg-gray-100" style={{ height: 24 }}>
+            <span className="w-24 text-right text-[11px] text-gray-500">
+              {item.round}
+            </span>
+            <div
+              className="flex-1 overflow-hidden rounded bg-gray-100"
+              style={{ height: 24 }}
+            >
               <div
                 className="flex h-full items-center rounded pl-2"
                 style={{
                   width: `${item.pct}%`,
-                  backgroundColor: i === 0 ? "#6366f1" : `rgba(99,102,241,${0.7 - i * 0.15})`,
+                  backgroundColor:
+                    i === 0 ? "#6366f1" : `rgba(99,102,241,${0.7 - i * 0.15})`,
                 }}
               >
-                <span className="font-heading text-[11px] font-semibold text-white">{item.pct}%</span>
+                <span className="font-heading text-[11px] font-semibold text-white">
+                  {item.pct}%
+                </span>
               </div>
             </div>
           </div>
         ))}
       </div>
       <div className="mt-3 rounded-lg bg-gray-50 px-3 py-2 text-xs text-gray-500">
-        <strong className="text-gray-900">{closeWithinOne}% close within 1 round</strong> — pricing is well-calibrated.
+        <strong className="text-gray-900">
+          {closeWithinOne}% close within 1 round
+        </strong>{" "}
+        — pricing is well-calibrated.
       </div>
     </Card>
   );

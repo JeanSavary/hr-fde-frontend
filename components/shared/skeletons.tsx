@@ -32,7 +32,7 @@ export function ChartsSkeleton() {
 
 export function TableSkeleton({ rows = 5 }: { rows?: number }) {
   return (
-    <Card className="shadow-sm">
+    <Card className="">
       <div className="space-y-3 p-5">
         <Skeleton className="h-4 w-32" />
         {Array.from({ length: rows }).map((_, i) => (

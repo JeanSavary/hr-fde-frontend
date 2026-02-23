@@ -1,38 +1,83 @@
 "use client";
 
-import { Card } from "@/components/ui/card";
-import { BookedLoad } from "@/lib/types";
-import { formatCurrency } from "@/lib/utils";
+import { BookedLoad, BookingsListResponse } from "@/lib/types";
+import { formatCurrency, cn } from "@/lib/utils";
 
 interface BookingsSummaryProps {
   bookings: BookedLoad[];
+  response?: BookingsListResponse;
 }
 
-export function BookingsSummary({ bookings }: BookingsSummaryProps) {
-  const totalRevenue = bookings.reduce((s, b) => s + b.agreed_rate, 0);
-  const avgMargin = bookings.length
-    ? bookings.reduce((s, b) => s + (b.margin ?? 0), 0) / bookings.length
-    : 0;
-  const avgRounds = bookings.length
-    ? bookings.reduce((s, b) => s + (b.negotiation_rounds ?? 0), 0) / bookings.length
-    : 0;
-  const hasMarginData = bookings.some((b) => b.margin != null);
-  const hasRoundsData = bookings.some((b) => b.negotiation_rounds != null);
+export function BookingsSummary({ bookings, response }: BookingsSummaryProps) {
+  // Prefer backend KPIs, fall back to client-side computation
+  const hasBackendKpis = response?.kpi_total_bookings != null;
 
-  const cards = [
-    { label: "Total Booked", value: bookings.length.toString() },
-    { label: "Total Revenue", value: totalRevenue >= 1000 ? `$${(totalRevenue / 1000).toFixed(1)}k` : formatCurrency(totalRevenue) },
-    { label: "Avg Margin", value: hasMarginData ? `${avgMargin.toFixed(1)}%` : "\u2014" },
-    { label: "Avg Rounds", value: hasRoundsData ? avgRounds.toFixed(1) : "\u2014" },
+  const totalBookings = hasBackendKpis
+    ? response.kpi_total_bookings!
+    : bookings.length;
+  const totalRevenue = hasBackendKpis
+    ? (response.kpi_total_revenue ?? 0)
+    : bookings.reduce((s, b) => s + b.agreed_rate, 0);
+  const avgMargin = hasBackendKpis
+    ? (response.kpi_avg_margin ?? 0)
+    : bookings.length
+      ? bookings.reduce((s, b) => s + (b.margin ?? 0), 0) / bookings.length
+      : 0;
+  const avgRounds = hasBackendKpis
+    ? (response.kpi_avg_rounds ?? 0)
+    : bookings.length
+      ? bookings.reduce((s, b) => s + (b.negotiation_rounds ?? 0), 0) /
+        bookings.length
+      : 0;
+  const hasMarginData = hasBackendKpis
+    ? response.kpi_avg_margin != null
+    : bookings.some((b) => b.margin != null);
+  const hasRoundsData = hasBackendKpis
+    ? response.kpi_avg_rounds != null
+    : bookings.some((b) => b.negotiation_rounds != null);
+
+  const metrics = [
+    { label: "Booked", value: totalBookings.toString() },
+    {
+      label: "Revenue",
+      value:
+        totalRevenue >= 1000
+          ? `$${(totalRevenue / 1000).toFixed(1)}k`
+          : formatCurrency(totalRevenue),
+    },
+    {
+      label: "Avg Margin",
+      value: hasMarginData ? `${avgMargin.toFixed(1)}%` : "\u2014",
+      color: hasMarginData
+        ? avgMargin >= 15
+          ? "text-emerald-600"
+          : avgMargin < 5
+            ? "text-rose-600"
+            : "text-indigo-600"
+        : undefined,
+    },
+    {
+      label: "Avg Rounds",
+      value: hasRoundsData ? avgRounds.toFixed(1) : "\u2014",
+    },
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-3.5 lg:grid-cols-4">
-      {cards.map((card) => (
-        <Card key={card.label} className="p-5 shadow-sm">
-          <div className="mb-2 text-xs font-medium uppercase tracking-wider text-gray-400">{card.label}</div>
-          <div className="font-heading text-2xl font-semibold tracking-wide text-gray-900">{card.value}</div>
-        </Card>
+    <div className="grid grid-cols-4 gap-px overflow-hidden rounded-md border border-gray-200 bg-gray-200">
+      {metrics.map((m) => (
+        <div key={m.label} className="bg-white px-4 py-3">
+          <div className="text-[10px] font-semibold uppercase tracking-wider text-gray-400">
+            {m.label}
+          </div>
+          <div
+            className={cn(
+              "mt-0.5 font-heading text-lg font-semibold tracking-wide",
+              m.color ?? "text-gray-900",
+            )}
+          >
+            {m.value}
+          </div>
+        </div>
       ))}
     </div>
   );

@@ -93,11 +93,11 @@ export interface DashboardMetrics {
   pending_transfer?: number;
   funnel_data?: Array<{ stage: string; count: number; pct: number }>;
   rate_intelligence?: {
-    avg_loadboard: number;
-    avg_agreed: number;
-    discount_pct: number;
-    margin_pct: number;
-  };
+    avg_loadboard: number | null;
+    avg_agreed: number | null;
+    discount_pct: number | null;
+    margin_pct: number | null;
+  } | null;
 }
 
 export interface CallDetail {
@@ -177,6 +177,27 @@ export interface Load {
   status?: LoadStatus;
 }
 
+export interface LoadListResponse {
+  loads: Load[];
+  total: number;
+  page: number;
+  page_size: number;
+  kpi_total_loads?: number;
+  kpi_critical_count?: number;
+  kpi_avg_rate_per_mile?: number;
+}
+
+export interface BookingsListResponse {
+  items: BookedLoad[];
+  total: number;
+  page: number;
+  page_size: number;
+  kpi_total_bookings?: number;
+  kpi_total_revenue?: number;
+  kpi_avg_margin?: number | null;
+  kpi_avg_rounds?: number | null;
+}
+
 export interface LoadSearchResponse {
   loads: Load[];
   alternative_loads: Load[];
@@ -209,6 +230,10 @@ export interface PaginatedResponse<T> {
   total: number;
   page: number;
   page_size: number;
+  kpi_total_calls?: number;
+  kpi_booking_rate?: number;
+  kpi_avg_duration?: number;
+  kpi_total_duration?: number;
 }
 
 // === Analytics Types ===

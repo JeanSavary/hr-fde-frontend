@@ -17,13 +17,12 @@ interface EquipmentChartProps {
 
 export function EquipmentChart({ data }: EquipmentChartProps) {
   const chartData = Object.entries(data).map(([key, value]) => ({
-    name:
-      EQUIPMENT_CONFIG[key as keyof typeof EQUIPMENT_CONFIG]?.label ?? key,
+    name: EQUIPMENT_CONFIG[key as keyof typeof EQUIPMENT_CONFIG]?.label ?? key,
     value,
   }));
 
   return (
-    <Card className="p-5 shadow-sm">
+    <Card className="p-5">
       <h3 className="text-sm font-medium text-gray-700">Equipment Demand</h3>
       <div className="mt-3 h-52">
         <ResponsiveContainer width="100%" height="100%">

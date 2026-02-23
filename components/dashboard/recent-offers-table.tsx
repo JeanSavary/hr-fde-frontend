@@ -18,7 +18,7 @@ interface RecentOffersTableProps {
 
 export function RecentOffersTable({ offers }: RecentOffersTableProps) {
   return (
-    <Card className="shadow-sm">
+    <Card className="">
       <div className="p-5 pb-3">
         <h3 className="text-sm font-medium text-gray-700">Recent Offers</h3>
       </div>
@@ -35,7 +35,10 @@ export function RecentOffersTable({ offers }: RecentOffersTableProps) {
         </TableHeader>
         <TableBody>
           {offers.map((offer, index) => (
-            <TableRow key={offer.offer_id ?? `offer-${index}`} className="border-gray-100">
+            <TableRow
+              key={offer.offer_id ?? `offer-${index}`}
+              className="border-gray-100"
+            >
               <TableCell className="font-mono text-xs">
                 {offer.load_id}
               </TableCell>

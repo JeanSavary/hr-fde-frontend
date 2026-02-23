@@ -16,7 +16,7 @@ export function EquipmentDemandSupply({ data }: EquipmentDemandSupplyProps) {
   const items = data ?? DEFAULT_DATA;
 
   return (
-    <Card className="p-5 shadow-sm">
+    <Card className="p-5">
       <div className="mb-4 flex items-center justify-between">
         <h3 className="text-sm font-semibold text-gray-900">
           Equipment Demand vs. Supply

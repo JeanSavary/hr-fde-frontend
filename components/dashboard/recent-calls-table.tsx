@@ -20,7 +20,7 @@ interface RecentCallsTableProps {
 
 export function RecentCallsTable({ calls }: RecentCallsTableProps) {
   return (
-    <Card className="shadow-sm">
+    <Card className="">
       <div className="p-5 pb-3">
         <h3 className="text-sm font-medium text-gray-700">Recent Calls</h3>
       </div>
