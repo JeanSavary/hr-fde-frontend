@@ -47,15 +47,19 @@ export interface CallSummary {
 }
 
 export interface OfferSummary {
-  id: string;
+  offer_id: string;
+  call_id: string | null;
   load_id: string;
-  carrier_name: string | null;
   mc_number: string | null;
-  amount: number;
+  offer_amount: number;
   offer_type: OfferType;
+  round_number: number;
   status: OfferStatus;
-  loadboard_rate: number | null;
+  notes: string | null;
   created_at: string;
+  original_rate: number | null;
+  rate_difference: number | null;
+  rate_difference_pct: number | null;
 }
 
 export interface DashboardMetrics {
@@ -136,7 +140,7 @@ export interface NegotiationSettings {
 }
 
 export interface PaginatedResponse<T> {
-  items: T[];
+  calls: T[];
   total: number;
   page: number;
   page_size: number;

@@ -26,24 +26,24 @@ export function RecentOffersTable({ offers }: RecentOffersTableProps) {
         <TableHeader>
           <TableRow className="border-gray-100">
             <TableHead className="text-xs">Load</TableHead>
-            <TableHead className="text-xs">Carrier</TableHead>
-            <TableHead className="text-xs">Amount</TableHead>
+            <TableHead className="text-xs">MC#</TableHead>
+            <TableHead className="text-xs text-right">Amount</TableHead>
             <TableHead className="text-xs">Type</TableHead>
             <TableHead className="text-xs">Status</TableHead>
             <TableHead className="text-xs text-right">Time</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {offers.map((offer) => (
-            <TableRow key={offer.id} className="border-gray-100">
+          {offers.map((offer, index) => (
+            <TableRow key={offer.offer_id ?? `offer-${index}`} className="border-gray-100">
               <TableCell className="font-mono text-xs">
                 {offer.load_id}
               </TableCell>
-              <TableCell className="text-sm">
-                {offer.carrier_name ?? "Unknown"}
+              <TableCell className="font-mono text-xs">
+                {offer.mc_number ?? "—"}
               </TableCell>
-              <TableCell className="text-sm">
-                {formatCurrency(offer.amount)}
+              <TableCell className="text-right text-sm">
+                {formatCurrency(offer.offer_amount)}
               </TableCell>
               <TableCell>
                 <span className="inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">

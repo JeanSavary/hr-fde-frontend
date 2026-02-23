@@ -33,7 +33,7 @@ export default function CallsPage() {
   const handleExport = () => {
     if (!data) return;
     const headers = ["Call ID", "Carrier", "MC#", "Origin", "Destination", "Outcome", "Sentiment", "Duration", "Created"];
-    const rows = data.items.map((c) => [
+    const rows = data.calls.map((c) => [
       c.call_id, c.carrier_name ?? "", c.mc_number ?? "",
       c.lane_origin ?? "", c.lane_destination ?? "",
       c.outcome, c.sentiment,
@@ -61,7 +61,7 @@ export default function CallsPage() {
         <TableSkeleton rows={10} />
       ) : data ? (
         <Card className="shadow-sm">
-          <CallsTable calls={data.items} />
+          <CallsTable calls={data.calls} />
           <div className="flex items-center justify-between border-t border-gray-100 px-4 py-3">
             <span className="text-sm text-gray-500">
               {data.total} total calls

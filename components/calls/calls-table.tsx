@@ -51,7 +51,7 @@ export function CallsTable({ calls }: CallsTableProps) {
             onClick={() => router.push(`/calls/${call.call_id}`)}
           >
             <TableCell className="font-mono text-xs text-gray-500">
-              {call.call_id.slice(0, 8)}
+              {call.id?.slice(0, 8) ?? "—"}
             </TableCell>
             <TableCell className="text-sm">
               {call.carrier_name ?? "Unknown"}
