@@ -126,6 +126,27 @@
   animation: fadeIn 0.2s ease-out;
 }
 
+@keyframes shimmerRow {
+  0% { background-color: #d1fae5; }
+  50% { background-color: #f0fdf4; }
+  100% { background-color: #d1fae5; }
+}
+
+.animate-shimmer-row {
+  animation: shimmerRow 2s ease-in-out infinite;
+}
+
+@keyframes shimmerBar {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-shimmer-bar {
+  background: linear-gradient(90deg, rgba(229,231,235,0.6) 25%, rgba(243,244,246,0.9) 50%, rgba(229,231,235,0.6) 75%);
+  background-size: 200% 100%;
+  animation: shimmerBar 3s ease-in-out infinite;
+}
+
 .cross-card {
   --cross-extend: 6px;
   --cross-color: #e2e8f0;

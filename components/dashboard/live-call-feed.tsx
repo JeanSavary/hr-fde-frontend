@@ -59,7 +59,7 @@ function mapOutcomeToStatus(outcome: string): string {
     invalid_carrier: "auth_failed",
     transferred_to_ops: "transferred",
     dropped_call: "declined",
-    carrier_thinking: "live",
+    carrier_thinking: "thinking",
   };
   return map[outcome] ?? "no_match";
 }

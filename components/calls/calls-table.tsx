@@ -31,12 +31,24 @@ interface CallsTableProps {
 }
 
 const STATUS_LEGEND = [
-  { label: "Booked", color: CALL_STATUS_COLORS.booked },
   { label: "Live", color: CALL_STATUS_COLORS.live },
+  { label: "Booked", color: CALL_STATUS_COLORS.booked },
+  { label: "Thinking", color: CALL_STATUS_COLORS.thinking },
   { label: "Transferred", color: CALL_STATUS_COLORS.transferred },
   { label: "Declined", color: CALL_STATUS_COLORS.declined },
   { label: "No match", color: CALL_STATUS_COLORS.no_match },
 ];
+
+function SkeletonBar({ className }: { className?: string }) {
+  return (
+    <div
+      className={cn(
+        "h-3 animate-shimmer-bar rounded bg-gray-200",
+        className,
+      )}
+    />
+  );
+}
 
 export function CallsTable({ calls, selectedId, onSelect }: CallsTableProps) {
   return (
@@ -48,7 +60,7 @@ export function CallsTable({ calls, selectedId, onSelect }: CallsTableProps) {
         {STATUS_LEGEND.map((s) => (
           <div key={s.label} className="flex items-center gap-1.5">
             <span
-              className="inline-block h-2 w-2 rounded-full"
+              className={cn("inline-block h-2 w-2 rounded-full", s.label === "Live" && "animate-pulse")}
               style={{ backgroundColor: s.color }}
             />
             <span className="text-[12px] text-gray-400">{s.label}</span>
@@ -73,6 +85,33 @@ export function CallsTable({ calls, selectedId, onSelect }: CallsTableProps) {
           </TableRow>
         </TableHeader>
         <TableBody>
+          {/* Fake live call row */}
+          <TableRow className="animate-shimmer-row border-gray-100">
+            <TableCell className="pl-6 pr-3">
+              <StatusDot status="live" />
+            </TableCell>
+            <TableCell>
+              <SkeletonBar className="w-24" />
+            </TableCell>
+            <TableCell>
+              <SkeletonBar className="w-16" />
+            </TableCell>
+            <TableCell>
+              <SkeletonBar className="w-28" />
+            </TableCell>
+            <TableCell>
+              <SkeletonBar className="w-14" />
+            </TableCell>
+            <TableCell>
+              <SkeletonBar className="ml-auto w-12" />
+            </TableCell>
+            <TableCell>
+              <SkeletonBar className="w-16" />
+            </TableCell>
+            <TableCell className="">
+              <span className="text-xs font-medium text-emerald-700">Live</span>
+            </TableCell>
+          </TableRow>
           {calls.map((call) => (
             <TableRow
               key={call.id}
@@ -132,7 +171,7 @@ function mapOutcomeToStatus(outcome: string): string {
     invalid_carrier: "auth_failed",
     transferred_to_ops: "transferred",
     dropped_call: "declined",
-    carrier_thinking: "live",
+    carrier_thinking: "thinking",
   };
   return map[outcome] ?? "no_match";
 }

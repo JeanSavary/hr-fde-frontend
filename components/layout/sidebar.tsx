@@ -79,7 +79,8 @@ export function Sidebar() {
               <item.icon className="h-[18px] w-[18px] shrink-0" />
               {!collapsed && <span>{item.label}</span>}
               {!collapsed && item.badge && (
-                <span className="ml-auto rounded-full bg-emerald-50 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-700">
+                <span className="ml-auto flex animate-pulse items-center gap-1.5 rounded-lg border border-emerald-200 bg-emerald-50 px-2 py-1 text-[10px] font-medium text-emerald-700">
+                  <span className="h-2 w-2 rounded-full bg-emerald-500" />
                   {item.badge}
                 </span>
               )}

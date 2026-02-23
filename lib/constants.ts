@@ -161,7 +161,8 @@ export const URGENCY_CONFIG: Record<
 };
 
 export const CALL_STATUS_COLORS: Record<string, string> = {
-  live: "#60a5fa",
+  live: "#22c55e",
+  thinking: "#60a5fa",
   booked: "#34d399",
   transferred: "#7C3AED",
   declined: "#BE123C",
