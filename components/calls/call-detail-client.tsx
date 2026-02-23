@@ -7,6 +7,7 @@ import { CallDetail } from "@/lib/types";
 import { useCallDetail } from "@/lib/swr";
 import { CallMetadata } from "./call-metadata";
 import { TranscriptViewer } from "./transcript-viewer";
+import { TableSkeleton } from "@/components/shared/skeletons";
 
 interface CallDetailClientProps {
   callId: string;
@@ -29,7 +30,7 @@ export function CallDetailClient({ callId, initialCall }: CallDetailClientProps)
   }
 
   if (!displayCall) {
-    return <div className="text-sm text-gray-500">Loading...</div>;
+    return <TableSkeleton rows={6} />;
   }
 
   return (

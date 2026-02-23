@@ -22,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Sidebar />
             <div className="flex flex-1 flex-col overflow-hidden">
               <Topbar />
-              <main className="flex-1 overflow-auto p-6">{children}</main>
+              <main className="animate-fade-in flex-1 overflow-auto p-6">{children}</main>
             </div>
           </div>
         </SidebarProvider>
