@@ -7,7 +7,9 @@ import { ChevronLeft, ChevronRight, Download } from "lucide-react";
 import { downloadCSV } from "@/lib/csv";
 import { CallFilters } from "@/components/calls/call-filters";
 import { CallsTable } from "@/components/calls/calls-table";
+import { CallSidebar } from "@/components/calls/call-sidebar";
 import { useCalls } from "@/lib/swr";
+import { CallSummary } from "@/lib/types";
 import { TableSkeleton } from "@/components/shared/skeletons";
 
 export default function CallsPage() {
@@ -17,6 +19,7 @@ export default function CallsPage() {
     mc_number?: string;
   }>({});
   const [page, setPage] = useState(1);
+  const [selectedCall, setSelectedCall] = useState<CallSummary | null>(null);
   const pageSize = 20;
 
   const { data, error, isLoading } = useCalls({
@@ -53,42 +56,39 @@ export default function CallsPage() {
       <CallFilters onFilterChange={handleFilterChange} />
       {error && !data ? (
         <Card className="shadow-sm">
-          <div className="p-6 text-sm text-red-600">
-            Failed to load calls.
-          </div>
+          <div className="p-6 text-sm text-red-600">Failed to load calls.</div>
         </Card>
       ) : isLoading && !data ? (
         <TableSkeleton rows={10} />
       ) : data ? (
-        <Card className="shadow-sm">
-          <CallsTable calls={data.calls} />
-          <div className="flex items-center justify-between border-t border-gray-100 px-4 py-3">
-            <span className="text-sm text-gray-500">
-              {data.total} total calls
-            </span>
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={page <= 1}
-                onClick={() => setPage((p) => p - 1)}
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </Button>
-              <span className="text-sm text-gray-600">
-                Page {page} of {Math.ceil((data.total || 1) / pageSize)}
+        <div className={`grid gap-4 ${selectedCall ? "grid-cols-[1fr_380px]" : "grid-cols-1"}`}>
+          <Card className="shadow-sm">
+            <CallsTable
+              calls={data.calls}
+              selectedId={selectedCall?.id}
+              onSelect={setSelectedCall}
+            />
+            <div className="flex items-center justify-between border-t border-gray-100 px-4 py-3">
+              <span className="text-sm text-gray-500">
+                {data.total} total calls
               </span>
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={page * pageSize >= data.total}
-                onClick={() => setPage((p) => p + 1)}
-              >
-                <ChevronRight className="h-4 w-4" />
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+                <span className="text-sm text-gray-600">
+                  Page {page} of {Math.ceil((data.total || 1) / pageSize)}
+                </span>
+                <Button variant="outline" size="sm" disabled={page * pageSize >= data.total} onClick={() => setPage((p) => p + 1)}>
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
-          </div>
-        </Card>
+          </Card>
+          {selectedCall && (
+            <CallSidebar call={selectedCall} onClose={() => setSelectedCall(null)} />
+          )}
+        </div>
       ) : null}
     </div>
   );

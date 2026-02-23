@@ -1,97 +1,86 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from "@/components/ui/table";
 import { CallSummary } from "@/lib/types";
-import { OutcomeBadge, SentimentBadge } from "@/components/shared/status-badge";
+import { OutcomeBadge, SentimentBadge, EquipmentBadge } from "@/components/shared/status-badge";
+import { StatusDot } from "@/components/shared/status-dot";
 import {
-  formatDuration,
-  formatLane,
-  formatCurrency,
-  formatDateTime,
+  formatDuration, formatLane, formatCurrency, formatRelativeTime, cn,
 } from "@/lib/utils";
-import { EQUIPMENT_CONFIG } from "@/lib/constants";
 
 interface CallsTableProps {
   calls: CallSummary[];
+  selectedId?: string | null;
+  onSelect?: (call: CallSummary) => void;
 }
 
-export function CallsTable({ calls }: CallsTableProps) {
-  const router = useRouter();
-
+export function CallsTable({ calls, selectedId, onSelect }: CallsTableProps) {
   return (
     <Table>
       <TableHeader>
         <TableRow className="border-gray-100">
-          <TableHead className="text-xs">Call ID</TableHead>
+          <TableHead className="w-8 text-xs" />
           <TableHead className="text-xs">Carrier</TableHead>
           <TableHead className="text-xs">MC#</TableHead>
           <TableHead className="text-xs">Lane</TableHead>
-          <TableHead className="text-xs">Equipment</TableHead>
-          <TableHead className="text-xs">Outcome</TableHead>
-          <TableHead className="text-xs">Sentiment</TableHead>
-          <TableHead className="text-xs text-right">Duration</TableHead>
-          <TableHead className="text-xs text-right">Rounds</TableHead>
+          <TableHead className="text-xs">Equip.</TableHead>
           <TableHead className="text-xs text-right">Rate</TableHead>
-          <TableHead className="text-xs text-right">Created</TableHead>
+          <TableHead className="text-xs">Sentiment</TableHead>
+          <TableHead className="text-xs text-right">Time</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {calls.map((call) => (
           <TableRow
             key={call.id}
-            className="cursor-pointer border-gray-100 transition-colors hover:bg-gray-50"
-            onClick={() => router.push(`/calls/${call.call_id}`)}
+            className={cn(
+              "cursor-pointer border-gray-100 transition-colors hover:bg-gray-50",
+              selectedId === call.id && "bg-indigo-50/50"
+            )}
+            onClick={() => onSelect?.(call)}
           >
-            <TableCell className="font-mono text-xs text-gray-500">
-              {call.id?.slice(0, 8) ?? "—"}
+            <TableCell className="px-3">
+              <StatusDot status={mapOutcomeToStatus(call.outcome)} />
             </TableCell>
-            <TableCell className="text-sm">
+            <TableCell className="text-sm font-medium">
               {call.carrier_name ?? "Unknown"}
             </TableCell>
-            <TableCell className="font-mono text-xs">
-              {call.mc_number ?? "\u2014"}
+            <TableCell className="font-mono text-xs text-gray-400">
+              {call.mc_number ?? "—"}
             </TableCell>
             <TableCell className="text-sm text-gray-500">
               {formatLane(call.lane_origin, call.lane_destination)}
             </TableCell>
-            <TableCell className="text-sm text-gray-500">
-              {call.equipment_type
-                ? (EQUIPMENT_CONFIG[
-                    call.equipment_type as keyof typeof EQUIPMENT_CONFIG
-                  ]?.label ?? call.equipment_type)
-                : "\u2014"}
-            </TableCell>
             <TableCell>
-              <OutcomeBadge outcome={call.outcome} />
+              {call.equipment_type ? <EquipmentBadge type={call.equipment_type} /> : <span className="text-xs text-gray-400">—</span>}
+            </TableCell>
+            <TableCell className="text-right font-mono text-sm font-semibold">
+              {call.final_rate ? formatCurrency(call.final_rate) : "—"}
             </TableCell>
             <TableCell>
               <SentimentBadge sentiment={call.sentiment} />
             </TableCell>
-            <TableCell className="text-right text-sm text-gray-500">
-              {formatDuration(call.duration_seconds)}
-            </TableCell>
-            <TableCell className="text-right text-sm">
-              {call.negotiation_rounds}
-            </TableCell>
-            <TableCell className="text-right text-sm">
-              {call.initial_rate && call.final_rate
-                ? `${formatCurrency(call.initial_rate)} \u2192 ${formatCurrency(call.final_rate)}`
-                : "\u2014"}
-            </TableCell>
-            <TableCell className="text-right text-sm text-gray-500">
-              {formatDateTime(call.created_at)}
+            <TableCell className="text-right text-xs text-gray-400">
+              {formatRelativeTime(call.created_at)}
             </TableCell>
           </TableRow>
         ))}
       </TableBody>
     </Table>
   );
+}
+
+function mapOutcomeToStatus(outcome: string): string {
+  const map: Record<string, string> = {
+    booked: "booked",
+    negotiation_failed: "declined",
+    no_loads_available: "no_match",
+    invalid_carrier: "auth_failed",
+    transferred_to_ops: "transferred",
+    dropped_call: "declined",
+    carrier_thinking: "live",
+  };
+  return map[outcome] ?? "no_match";
 }
