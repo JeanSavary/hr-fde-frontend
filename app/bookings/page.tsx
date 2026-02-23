@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 import { BookingsSummary } from "@/components/bookings/bookings-summary";
 import { BookingsTable } from "@/components/bookings/bookings-table";
+import { MarginDistribution } from "@/components/bookings/margin-distribution";
+import { RevenueByEquipment } from "@/components/bookings/revenue-by-equipment";
 import { useBookings } from "@/lib/swr";
 import { downloadCSV } from "@/lib/csv";
 import { SummaryCardsSkeleton, TableSkeleton } from "@/components/shared/skeletons";
@@ -23,7 +25,7 @@ export default function BookingsPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold text-gray-900">Bookings</h1>
         <Button variant="outline" size="sm" onClick={handleExport} disabled={!bookings}>
@@ -31,9 +33,7 @@ export default function BookingsPage() {
         </Button>
       </div>
       {error && !bookings ? (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-6 text-red-700">
-          Failed to load bookings.
-        </div>
+        <div className="rounded-lg border border-red-200 bg-red-50 p-6 text-red-700">Failed to load bookings.</div>
       ) : isLoading && !bookings ? (
         <>
           <SummaryCardsSkeleton count={4} />
@@ -42,9 +42,14 @@ export default function BookingsPage() {
       ) : bookings ? (
         <>
           <BookingsSummary bookings={bookings} />
-          <Card className="shadow-sm">
+          <Card className="overflow-hidden shadow-sm">
+            <div className="px-5 py-4 text-sm font-semibold text-gray-900">Today&apos;s Bookings</div>
             <BookingsTable bookings={bookings} />
           </Card>
+          <div className="grid grid-cols-1 gap-3.5 lg:grid-cols-2">
+            <MarginDistribution bookings={bookings} />
+            <RevenueByEquipment bookings={bookings} />
+          </div>
         </>
       ) : null}
     </div>
