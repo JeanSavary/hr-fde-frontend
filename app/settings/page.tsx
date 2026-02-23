@@ -2,6 +2,7 @@
 
 import { NegotiationForm } from "@/components/settings/negotiation-form";
 import { useSettings } from "@/lib/swr";
+import { SettingsFormSkeleton } from "@/components/shared/skeletons";
 
 export default function SettingsPage() {
   const { data: settings, error, isLoading } = useSettings();
@@ -16,7 +17,7 @@ export default function SettingsPage() {
           Failed to load settings.
         </div>
       ) : isLoading && !settings ? (
-        <div className="text-sm text-gray-500">Loading...</div>
+        <SettingsFormSkeleton />
       ) : settings ? (
         <NegotiationForm initialSettings={settings} />
       ) : null}

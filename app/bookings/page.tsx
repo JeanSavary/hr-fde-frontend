@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { BookingsSummary } from "@/components/bookings/bookings-summary";
 import { BookingsTable } from "@/components/bookings/bookings-table";
 import { useBookings } from "@/lib/swr";
+import { SummaryCardsSkeleton, TableSkeleton } from "@/components/shared/skeletons";
 
 export default function BookingsPage() {
   const { data: bookings, error, isLoading } = useBookings();
@@ -16,7 +17,10 @@ export default function BookingsPage() {
           Failed to load bookings.
         </div>
       ) : isLoading && !bookings ? (
-        <div className="text-sm text-gray-500">Loading...</div>
+        <>
+          <SummaryCardsSkeleton count={4} />
+          <TableSkeleton rows={5} />
+        </>
       ) : bookings ? (
         <>
           <BookingsSummary bookings={bookings} />

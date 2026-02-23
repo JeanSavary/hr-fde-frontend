@@ -8,6 +8,7 @@ import { LoadFilters } from "@/components/loads/load-filters";
 import { LoadsTable } from "@/components/loads/loads-table";
 import { LoadsCardView } from "@/components/loads/loads-card";
 import { useLoads } from "@/lib/swr";
+import { TableSkeleton } from "@/components/shared/skeletons";
 
 export default function LoadsPage() {
   const [view, setView] = useState<"table" | "card">("table");
@@ -32,7 +33,7 @@ export default function LoadsPage() {
       {error && !loads ? (
         <div className="rounded-lg border border-red-200 bg-red-50 p-6 text-red-700">Failed to load loads.</div>
       ) : isLoading && !loads ? (
-        <div className="text-sm text-gray-500">Loading...</div>
+        <TableSkeleton rows={8} />
       ) : loads ? (
         view === "table" ? (
           <Card className="shadow-sm"><LoadsTable loads={loads} /></Card>
