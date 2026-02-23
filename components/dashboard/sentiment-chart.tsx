@@ -1,59 +1,40 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  ResponsiveContainer,
-  Tooltip,
-  Cell,
-} from "recharts";
-import { SENTIMENT_CHART_COLORS, SENTIMENT_CONFIG } from "@/lib/constants";
+import { SENTIMENT_CONFIG, SENTIMENT_CHART_COLORS } from "@/lib/constants";
 
 interface SentimentChartProps {
   data: Record<string, number>;
 }
 
 export function SentimentChart({ data }: SentimentChartProps) {
-  const chartData = Object.entries(data).map(([key, value]) => ({
-    name:
-      SENTIMENT_CONFIG[key as keyof typeof SENTIMENT_CONFIG]?.label ?? key,
-    value,
-    color: SENTIMENT_CHART_COLORS[key] ?? "#9CA3AF",
-  }));
+  const total = Object.values(data).reduce((s, v) => s + v, 0) || 1;
+  const entries = Object.entries(data).filter(([, v]) => v > 0);
 
   return (
     <Card className="p-5 shadow-sm">
-      <h3 className="text-sm font-medium text-gray-700">
-        Sentiment Distribution
-      </h3>
-      <div className="mt-3 h-52">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={chartData} layout="vertical" margin={{ left: 10 }}>
-            <XAxis type="number" hide />
-            <YAxis
-              type="category"
-              dataKey="name"
-              width={80}
-              tick={{ fontSize: 12 }}
-            />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "#fff",
-                border: "1px solid #E5E7EB",
-                borderRadius: "8px",
-                boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-              }}
-            />
-            <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={20}>
-              {chartData.map((entry, i) => (
-                <Cell key={i} fill={entry.color} />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+      <h3 className="mb-3.5 text-sm font-semibold text-gray-900">Carrier Sentiment</h3>
+      <div className="space-y-3">
+        {entries.map(([key, count]) => {
+          const pct = Math.round((count / total) * 100);
+          const color = SENTIMENT_CHART_COLORS[key] ?? "#94a3b8";
+          return (
+            <div key={key}>
+              <div className="mb-1 flex justify-between">
+                <span className="text-xs text-gray-500">
+                  {SENTIMENT_CONFIG[key as keyof typeof SENTIMENT_CONFIG]?.label ?? key}
+                </span>
+                <span className="font-mono text-xs font-semibold text-gray-900">{pct}%</span>
+              </div>
+              <div className="h-1.5 overflow-hidden rounded-full bg-gray-100">
+                <div
+                  className="h-full rounded-full"
+                  style={{ width: `${pct}%`, backgroundColor: color }}
+                />
+              </div>
+            </div>
+          );
+        })}
       </div>
     </Card>
   );

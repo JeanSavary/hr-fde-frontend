@@ -1,68 +1,45 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
-import {
-  PieChart,
-  Pie,
-  Cell,
-  ResponsiveContainer,
-  Tooltip,
-} from "recharts";
-import { OUTCOME_CHART_COLORS, OUTCOME_CONFIG } from "@/lib/constants";
+import { OUTCOME_CONFIG, OUTCOME_CHART_COLORS } from "@/lib/constants";
 
 interface OutcomeChartProps {
   data: Record<string, number>;
 }
 
 export function OutcomeChart({ data }: OutcomeChartProps) {
-  const chartData = Object.entries(data).map(([key, value]) => ({
-    name:
-      OUTCOME_CONFIG[key as keyof typeof OUTCOME_CONFIG]?.label ?? key,
-    value,
-    color: OUTCOME_CHART_COLORS[key] ?? "#9CA3AF",
-  }));
-  const total = chartData.reduce((sum, d) => sum + d.value, 0);
+  const entries = Object.entries(data)
+    .filter(([, count]) => count > 0)
+    .sort(([, a], [, b]) => b - a);
 
   return (
     <Card className="p-5 shadow-sm">
-      <h3 className="text-sm font-medium text-gray-700">Calls by Outcome</h3>
-      <div className="mt-3 h-52">
-        <ResponsiveContainer width="100%" height="100%">
-          <PieChart>
-            <Pie
-              data={chartData}
-              cx="50%"
-              cy="50%"
-              innerRadius={55}
-              outerRadius={80}
-              dataKey="value"
-              strokeWidth={2}
-              stroke="#fff"
-            >
-              {chartData.map((entry, i) => (
-                <Cell key={i} fill={entry.color} />
-              ))}
-            </Pie>
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "#fff",
-                border: "1px solid #E5E7EB",
-                borderRadius: "8px",
-                boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-              }}
-              formatter={(value: number | undefined) => [value ?? 0, "Calls"]}
+      <h3 className="mb-3.5 text-sm font-semibold text-gray-900">Call Outcomes</h3>
+      <div className="space-y-1.5">
+        {entries.map(([key, count]) => (
+          <div key={key} className="flex items-center gap-2">
+            <span
+              className="h-2 w-2 shrink-0 rounded-sm"
+              style={{ backgroundColor: OUTCOME_CHART_COLORS[key] ?? "#94a3b8" }}
             />
-            <text
-              x="50%"
-              y="50%"
-              textAnchor="middle"
-              dominantBaseline="middle"
-              className="fill-gray-900 text-2xl font-semibold"
-            >
-              {total}
-            </text>
-          </PieChart>
-        </ResponsiveContainer>
+            <span className="flex-1 text-xs text-gray-500">
+              {OUTCOME_CONFIG[key as keyof typeof OUTCOME_CONFIG]?.label ?? key}
+            </span>
+            <span className="font-mono text-xs font-semibold text-gray-900">{count}</span>
+          </div>
+        ))}
+      </div>
+      <div className="mt-3 flex h-1.5 overflow-hidden rounded-full">
+        {entries.map(([key, count]) => (
+          <div
+            key={key}
+            className="h-full"
+            style={{
+              flex: count,
+              backgroundColor: OUTCOME_CHART_COLORS[key] ?? "#94a3b8",
+            }}
+          />
+        ))}
       </div>
     </Card>
   );
