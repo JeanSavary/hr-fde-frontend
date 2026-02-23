@@ -48,6 +48,29 @@ export const SENTIMENT_CHART_COLORS: Record<string, string> = {
   confused: "#7C3AED",
 };
 
+export const EQUIPMENT_BADGE_CONFIG: Record<string, { bg: string; text: string; border: string }> = {
+  dry_van: { bg: "bg-indigo-50", text: "text-indigo-700", border: "border-indigo-200" },
+  reefer: { bg: "bg-cyan-50", text: "text-cyan-700", border: "border-cyan-200" },
+  flatbed: { bg: "bg-purple-50", text: "text-purple-700", border: "border-purple-200" },
+  step_deck: { bg: "bg-amber-50", text: "text-amber-700", border: "border-amber-200" },
+  power_only: { bg: "bg-gray-100", text: "text-gray-600", border: "border-gray-200" },
+};
+
+export const URGENCY_CONFIG: Record<string, { label: string; bg: string; text: string; border: string }> = {
+  critical: { label: "Critical", bg: "bg-rose-50", text: "text-rose-700", border: "border-rose-200" },
+  high: { label: "High", bg: "bg-amber-50", text: "text-amber-700", border: "border-amber-200" },
+  normal: { label: "Normal", bg: "bg-gray-100", text: "text-gray-600", border: "border-gray-200" },
+};
+
+export const CALL_STATUS_COLORS: Record<string, string> = {
+  live: "#34d399",
+  booked: "#6366f1",
+  transferred: "#f0913b",
+  declined: "#f25c54",
+  no_match: "#94a3b8",
+  auth_failed: "#f0913b",
+};
+
 export const REFRESH_INTERVALS = {
   overview: 10_000,
   callsList: 20_000,
@@ -55,4 +78,5 @@ export const REFRESH_INTERVALS = {
   bookings: 20_000,
   loads: 20_000,
   settings: 0,
+  analytics: 30_000,
 } as const;

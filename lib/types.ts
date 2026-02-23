@@ -23,6 +23,10 @@ export type EquipmentType =
   | "step_deck"
   | "power_only";
 
+export type LoadUrgency = "critical" | "high" | "normal";
+export type LoadStatus = "matching" | "available" | "booked";
+export type AgentTone = "professional" | "friendly" | "direct";
+
 export type OfferType = "initial" | "counter" | "final";
 export type OfferStatus = "pending" | "accepted" | "rejected" | "expired";
 export type Verdict = "accept" | "counter" | "reject";
@@ -76,6 +80,24 @@ export interface DashboardMetrics {
   equipment_demand: Record<string, number>;
   recent_calls: CallSummary[];
   recent_offers: OfferSummary[];
+
+  // v6 fields (optional — graceful degradation)
+  calls_today?: number;
+  calls_trend?: string;
+  booked_today?: number;
+  booked_trend?: string;
+  revenue_today?: number;
+  revenue_trend?: string;
+  conversion_rate?: number;
+  conversion_trend?: string;
+  pending_transfer?: number;
+  funnel_data?: Array<{ stage: string; count: number; pct: number }>;
+  rate_intelligence?: {
+    avg_loadboard: number;
+    avg_agreed: number;
+    discount_pct: number;
+    margin_pct: number;
+  };
 }
 
 export interface CallDetail {
@@ -111,6 +133,16 @@ export interface BookedLoad {
   offer_id: string | null;
   call_id: string | null;
   created_at: string;
+
+  // v6 fields
+  lane_origin?: string | null;
+  lane_destination?: string | null;
+  equipment_type?: string | null;
+  loadboard_rate?: number | null;
+  margin?: number | null;
+  negotiation_rounds?: number | null;
+  sentiment?: Sentiment | null;
+  booked_at?: string | null;
 }
 
 export interface Load {
@@ -131,12 +163,45 @@ export interface Load {
   num_of_pieces: number;
   miles: number;
   dimensions: string;
+  rate_per_mile?: number;
+  deadhead_miles?: number;
+  deadend_miles?: number;
+  floor_rate?: number;
+  max_rate?: number;
+  differences?: string[];
+
+  // v6 fields
+  urgency?: LoadUrgency;
+  pitch_count?: number;
+  days_listed?: number;
+  status?: LoadStatus;
+}
+
+export interface LoadSearchResponse {
+  loads: Load[];
+  alternative_loads: Load[];
+  origin_resolved: { type: string; label: string; lat: number; lng: number } | null;
+  destination_resolved: { type: string; label: string; lat: number; lng: number } | null;
+  radius_miles: number;
+  total_found: number;
+  total_alternatives: number;
 }
 
 export interface NegotiationSettings {
   target_margin: number;
   min_margin: number;
   max_bump_above_loadboard: number;
+
+  // v6 extended fields
+  max_negotiation_rounds?: number;
+  max_offers_per_call?: number;
+  auto_transfer_threshold?: number;
+  deadhead_warning_miles?: number;
+  floor_rate_protection?: boolean;
+  sentiment_escalation?: boolean;
+  prioritize_perishables?: boolean;
+  agent_greeting?: string;
+  agent_tone?: AgentTone;
 }
 
 export interface PaginatedResponse<T> {
@@ -144,6 +209,15 @@ export interface PaginatedResponse<T> {
   total: number;
   page: number;
   page_size: number;
+}
+
+// === Analytics Types ===
+
+export interface AnalyticsData {
+  negotiation_depth: Array<{ round: string; pct: number }>;
+  carrier_objections: Array<{ reason: string; count: number; pct: number }>;
+  top_lanes: Array<{ lane: string; calls: number; bookings: number; avg_rate: string }>;
+  equipment_demand_supply: Array<{ type: string; demand: number; supply: number }>;
 }
 
 // === HappyRobot Types (P2) ===
