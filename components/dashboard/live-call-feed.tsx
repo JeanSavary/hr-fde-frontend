@@ -20,9 +20,9 @@ export function LiveCallFeed({ calls }: LiveCallFeedProps) {
         <span className="text-xs text-gray-400">Just now</span>
       </div>
       <div className="max-h-72 overflow-y-auto">
-        {calls.slice(0, 6).map((call) => (
+        {calls.slice(0, 6).map((call, i) => (
           <div
-            key={call.id}
+            key={call.id ?? i}
             className="grid cursor-pointer grid-cols-[8px_1fr_auto] items-center gap-2.5 border-t border-gray-50 px-5 py-2.5 transition-colors hover:bg-gray-50"
             onClick={() => router.push(`/calls/${call.call_id}`)}
           >
