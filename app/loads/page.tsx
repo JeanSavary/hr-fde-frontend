@@ -103,7 +103,7 @@ export default function LoadsPage() {
               <LoadsTable loads={allLoads} exactCount={data.total_found} onSelect={setSelectedLoad} />
             </Card>
           ) : (
-            <LoadsCardView loads={allLoads} exactCount={data.total_found} />
+            <LoadsCardView loads={allLoads} exactCount={data.total_found} onSelect={setSelectedLoad} />
           )}
         </>
       ) : null}
