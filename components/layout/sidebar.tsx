@@ -7,6 +7,7 @@ import {
   Phone,
   Package,
   Truck,
+  BarChart3,
   Settings,
   ChevronLeft,
   ChevronRight,
@@ -21,6 +22,7 @@ const navItems = [
   { href: "/calls", label: "Calls", icon: Phone },
   { href: "/bookings", label: "Bookings", icon: Package },
   { href: "/loads", label: "Loads", icon: Truck },
+  { href: "/analytics", label: "Analytics", icon: BarChart3 },
   { href: "/settings", label: "Settings", icon: Settings },
 ];
 
