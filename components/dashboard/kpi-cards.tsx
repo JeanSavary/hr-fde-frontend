@@ -8,7 +8,7 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import { DashboardMetrics } from "@/lib/types";
-import { formatCurrency, formatPercent, cn } from "@/lib/utils";
+import { formatCurrency, formatPercent, formatDuration, cn } from "@/lib/utils";
 
 interface KpiCardsProps {
   metrics: DashboardMetrics;
@@ -25,8 +25,11 @@ export function KpiCards({ metrics }: KpiCardsProps) {
 
   const cards = [
     {
-      label: "Calls Today",
+      label: "Calls",
       value: callsValue.toLocaleString(),
+      sub: metrics.avg_duration_seconds
+        ? `avg ${formatDuration(metrics.avg_duration_seconds)}`
+        : null,
       trend: metrics.calls_trend,
       icon: Phone,
     },
@@ -72,6 +75,11 @@ export function KpiCards({ metrics }: KpiCardsProps) {
             <span className="font-heading text-lg font-semibold tracking-wide text-gray-900">
               {card.value}
             </span>
+            {"sub" in card && card.sub && (
+              <span className="text-[10px] font-medium text-gray-400">
+                {card.sub}
+              </span>
+            )}
             {card.trend && (
               <span
                 className={cn(
