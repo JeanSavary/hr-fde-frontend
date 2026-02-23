@@ -7,6 +7,7 @@ import { OutcomeChart } from "./outcome-chart";
 import { SentimentChart } from "./sentiment-chart";
 import { EquipmentChart } from "./equipment-chart";
 import { TopLanesChart } from "./top-lanes-chart";
+import { RateTrendChart } from "./rate-trend-chart";
 import { RecentCallsTable } from "./recent-calls-table";
 import { RecentOffersTable } from "./recent-offers-table";
 import { KpiCardsSkeleton, ChartsSkeleton, TableSkeleton } from "@/components/shared/skeletons";
@@ -45,6 +46,7 @@ export function OverviewClient({ initialMetrics }: OverviewClientProps) {
     <div className="space-y-6">
       <h1 className="text-2xl font-semibold text-gray-900">Overview</h1>
       <KpiCards metrics={displayMetrics} />
+      <RateTrendChart calls={displayMetrics.recent_calls} />
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <OutcomeChart data={displayMetrics.calls_by_outcome} />
         <SentimentChart data={displayMetrics.sentiment_distribution} />
