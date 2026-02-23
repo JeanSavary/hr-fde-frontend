@@ -6,9 +6,10 @@ import {
   CallSummary,
   CallDetail,
   BookedLoad,
-  Load,
+  LoadSearchResponse,
   NegotiationSettings,
   PaginatedResponse,
+  AnalyticsData,
 } from "./types";
 import { REFRESH_INTERVALS } from "./constants";
 
@@ -71,13 +72,32 @@ export function useBookings() {
   });
 }
 
-export function useLoads(filters?: Record<string, unknown>) {
-  const key = filters
-    ? `/api/loads?${new URLSearchParams(filters as Record<string, string>).toString()}`
-    : "/api/loads";
-  return useSWR<Load[]>(key, fetcher, {
-    refreshInterval: REFRESH_INTERVALS.loads,
-    revalidateOnFocus: true,
+export function useLoads(filters: {
+  origin?: string;
+  equipment_type?: string;
+  destination?: string;
+}) {
+  const hasOrigin = !!filters.origin?.trim();
+  const body = {
+    origin: filters.origin ?? "",
+    equipment_type: filters.equipment_type || "dry_van",
+    ...(filters.destination ? { destination: filters.destination } : {}),
+  };
+  const key = hasOrigin ? ["loads-search", JSON.stringify(body)] : null;
+
+  const postFetcher = async (): Promise<LoadSearchResponse> => {
+    const res = await fetch("/api/loads", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
+    return res.json();
+  };
+
+  return useSWR<LoadSearchResponse>(key, postFetcher, {
+    refreshInterval: hasOrigin ? REFRESH_INTERVALS.loads : 0,
+    revalidateOnFocus: hasOrigin,
   });
 }
 
@@ -85,5 +105,13 @@ export function useSettings() {
   return useSWR<NegotiationSettings>("/api/settings", fetcher, {
     refreshInterval: REFRESH_INTERVALS.settings,
     revalidateOnFocus: false,
+  });
+}
+
+export function useAnalytics() {
+  return useSWR<AnalyticsData>("/api/analytics", fetcher, {
+    refreshInterval: REFRESH_INTERVALS.analytics,
+    revalidateOnFocus: true,
+    dedupingInterval: 10000,
   });
 }

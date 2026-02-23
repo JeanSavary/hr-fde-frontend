@@ -6,6 +6,7 @@ import {
   Load,
   NegotiationSettings,
   PaginatedResponse,
+  AnalyticsData,
 } from "./types";
 
 const BACKEND_URL = process.env.BACKEND_API_URL;
@@ -102,4 +103,8 @@ export async function getHealthStatus(): Promise<boolean> {
   } catch {
     return false;
   }
+}
+
+export async function getAnalytics(): Promise<AnalyticsData> {
+  return fetchApi<AnalyticsData>("/api/analytics");
 }
