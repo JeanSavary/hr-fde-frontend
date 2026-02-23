@@ -33,7 +33,7 @@ const PERIOD_OPTIONS = [
 ] as const;
 
 export default function BookingsPage() {
-  const [period, setPeriod] = useState("today");
+  const [period, setPeriod] = useState("all_time");
   const [page, setPage] = useState(1);
   const pageSize = 8;
   const { data, error, isLoading } = useBookings({ page, page_size: pageSize, period });

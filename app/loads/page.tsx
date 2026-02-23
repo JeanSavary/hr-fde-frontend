@@ -27,7 +27,7 @@ const PERIOD_OPTIONS = [
 
 export default function LoadsPage() {
   const router = useRouter();
-  const [period, setPeriod] = useState("today");
+  const [period, setPeriod] = useState("all_time");
   const [view, setView] = useState<"table" | "card">("table");
   const [page, setPage] = useState(1);
   const pageSize = 10;

@@ -28,7 +28,7 @@ const PERIOD_OPTIONS = [
 ] as const;
 
 export default function CallsPage() {
-  const [period, setPeriod] = useState("today");
+  const [period, setPeriod] = useState("all_time");
   const [filters, setFilters] = useState<{
     outcome?: string;
     sentiment?: string;
