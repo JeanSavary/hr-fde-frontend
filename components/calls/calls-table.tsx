@@ -21,14 +21,14 @@ export function CallsTable({ calls, selectedId, onSelect }: CallsTableProps) {
     <Table>
       <TableHeader>
         <TableRow className="border-gray-100">
-          <TableHead className="w-8 text-xs" />
+          <TableHead className="w-8 pl-6 text-xs" />
           <TableHead className="text-xs">Carrier</TableHead>
           <TableHead className="text-xs">MC#</TableHead>
           <TableHead className="text-xs">Lane</TableHead>
           <TableHead className="text-xs">Equip.</TableHead>
           <TableHead className="text-xs text-right">Rate</TableHead>
           <TableHead className="text-xs">Sentiment</TableHead>
-          <TableHead className="text-xs text-right">Time</TableHead>
+          <TableHead className="pr-6 text-xs text-right">Time</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -41,7 +41,7 @@ export function CallsTable({ calls, selectedId, onSelect }: CallsTableProps) {
             )}
             onClick={() => onSelect?.(call)}
           >
-            <TableCell className="px-3">
+            <TableCell className="pl-6 pr-3">
               <StatusDot status={mapOutcomeToStatus(call.outcome)} />
             </TableCell>
             <TableCell className="text-sm font-medium">
@@ -56,13 +56,13 @@ export function CallsTable({ calls, selectedId, onSelect }: CallsTableProps) {
             <TableCell>
               {call.equipment_type ? <EquipmentBadge type={call.equipment_type} /> : <span className="text-xs text-gray-400">—</span>}
             </TableCell>
-            <TableCell className="text-right font-mono text-sm font-semibold">
+            <TableCell className="text-right font-heading text-sm font-semibold tracking-wide">
               {call.final_rate ? formatCurrency(call.final_rate) : "—"}
             </TableCell>
             <TableCell>
               <SentimentBadge sentiment={call.sentiment} />
             </TableCell>
-            <TableCell className="text-right text-xs text-gray-400">
+            <TableCell className="pr-6 text-right text-xs text-gray-400">
               {formatRelativeTime(call.created_at)}
             </TableCell>
           </TableRow>

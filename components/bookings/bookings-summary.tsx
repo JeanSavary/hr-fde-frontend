@@ -31,7 +31,7 @@ export function BookingsSummary({ bookings }: BookingsSummaryProps) {
       {cards.map((card) => (
         <Card key={card.label} className="p-5 shadow-sm">
           <div className="mb-2 text-xs font-medium uppercase tracking-wider text-gray-400">{card.label}</div>
-          <div className="font-mono text-2xl font-bold tracking-tight text-gray-900">{card.value}</div>
+          <div className="font-heading text-2xl font-semibold tracking-wide text-gray-900">{card.value}</div>
         </Card>
       ))}
     </div>

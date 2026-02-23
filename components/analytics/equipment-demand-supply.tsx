@@ -17,28 +17,56 @@ export function EquipmentDemandSupply({ data }: EquipmentDemandSupplyProps) {
 
   return (
     <Card className="p-5 shadow-sm">
-      <h3 className="mb-4 text-sm font-semibold text-gray-900">Equipment Demand vs. Inventory</h3>
-      <div className="space-y-3.5">
+      <div className="mb-4 flex items-center justify-between">
+        <h3 className="text-sm font-semibold text-gray-900">
+          Equipment Demand vs. Supply
+        </h3>
+        <div className="flex items-center gap-3">
+          <span className="flex items-center gap-1.5 text-[10px] text-gray-400">
+            <span className="inline-block h-2 w-2 rounded-full bg-indigo-400" />
+            Demand
+          </span>
+          <span className="flex items-center gap-1.5 text-[10px] text-gray-400">
+            <span className="inline-block h-2 w-2 rounded-full bg-emerald-400" />
+            Supply
+          </span>
+        </div>
+      </div>
+      <div className="space-y-4">
         {items.map((item) => (
           <div key={item.type}>
-            <div className="mb-1.5 flex justify-between">
-              <span className="text-xs font-medium text-gray-900">{item.type}</span>
-              <span className={`text-[11px] font-semibold ${item.demand > item.supply ? "text-rose-500" : "text-emerald-500"}`}>
+            <div className="mb-2 flex justify-between">
+              <span className="text-xs font-medium text-gray-900">
+                {item.type}
+              </span>
+              <span
+                className={`text-[11px] font-semibold ${item.demand > item.supply ? "text-rose-500" : "text-emerald-500"}`}
+              >
                 {item.demand > item.supply ? "Under-supplied" : "Balanced"}
               </span>
             </div>
-            <div className="flex gap-1.5">
-              <div className="flex-1">
-                <div className="mb-0.5 text-[9px] uppercase text-gray-400">Demand</div>
-                <div className="h-1.5 overflow-hidden rounded-full bg-gray-100">
-                  <div className="h-full rounded-full bg-indigo-500" style={{ width: `${item.demand}%` }} />
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-2">
+                <div className="h-2 flex-1 overflow-hidden rounded-full bg-gray-100">
+                  <div
+                    className="h-full rounded-full bg-indigo-400"
+                    style={{ width: `${item.demand}%` }}
+                  />
                 </div>
+                <span className="w-8 text-right font-heading text-[10px] font-semibold text-gray-500">
+                  {item.demand}%
+                </span>
               </div>
-              <div className="flex-1">
-                <div className="mb-0.5 text-[9px] uppercase text-gray-400">Supply</div>
-                <div className="h-1.5 overflow-hidden rounded-full bg-gray-100">
-                  <div className="h-full rounded-full bg-emerald-400" style={{ width: `${item.supply}%` }} />
+              <div className="flex items-center gap-2">
+                <div className="h-2 flex-1 overflow-hidden rounded-full bg-gray-100">
+                  <div
+                    className="h-full rounded-full bg-emerald-400"
+                    style={{ width: `${item.supply}%` }}
+                  />
                 </div>
+                <span className="w-8 text-right font-heading text-[10px] font-semibold text-gray-500">
+                  {item.supply}%
+                </span>
               </div>
             </div>
           </div>

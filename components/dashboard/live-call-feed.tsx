@@ -1,6 +1,6 @@
 "use client";
 
-import { Card } from "@/components/ui/card";
+import { CrossCard } from "@/components/ui/cross-card";
 import { CallSummary } from "@/lib/types";
 import { StatusDot } from "@/components/shared/status-dot";
 import { formatLane, formatCurrency, formatRelativeTime } from "@/lib/utils";
@@ -11,7 +11,7 @@ interface LiveCallFeedProps {
 
 export function LiveCallFeed({ calls }: LiveCallFeedProps) {
   return (
-    <Card className="overflow-hidden p-0 shadow-sm">
+    <CrossCard>
       <div className="flex items-center justify-between px-5 pb-2 pt-4">
         <h3 className="text-sm font-semibold text-gray-900">Live Call Feed</h3>
         <span className="text-xs text-gray-400">Just now</span>
@@ -42,7 +42,7 @@ export function LiveCallFeed({ calls }: LiveCallFeedProps) {
           </div>
         ))}
       </div>
-    </Card>
+    </CrossCard>
   );
 }
 

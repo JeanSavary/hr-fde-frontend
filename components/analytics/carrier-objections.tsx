@@ -14,25 +14,34 @@ const DEFAULT_DATA = [
   { reason: "Prefer different lane", count: 5, pct: 12 },
 ];
 
+const BAR_COLORS = [
+  "bg-indigo-500",
+  "bg-indigo-400",
+  "bg-indigo-400/70",
+  "bg-indigo-300",
+  "bg-indigo-300/70",
+];
+
 export function CarrierObjections({ data }: CarrierObjectionsProps) {
   const items = data ?? DEFAULT_DATA;
+  const total = items.reduce((s, i) => s + i.count, 0);
 
   return (
     <Card className="p-5 shadow-sm">
-      <h3 className="mb-4 text-sm font-semibold text-gray-900">Top Carrier Objections</h3>
-      <div className="space-y-2">
+      <div className="mb-4 flex items-center justify-between">
+        <h3 className="text-sm font-semibold text-gray-900">Top Carrier Objections</h3>
+        <span className="text-[11px] text-gray-400">{total} total</span>
+      </div>
+      <div className="space-y-2.5">
         {items.map((item, i) => (
-          <div key={item.reason} className="flex items-center gap-2.5">
-            <span className="flex h-5 w-5 items-center justify-center rounded bg-gray-100 font-mono text-[10px] font-semibold text-gray-400">
-              {i + 1}
-            </span>
-            <div className="flex-1">
-              <div className="text-xs font-medium text-gray-900">{item.reason}</div>
-              <div className="mt-0.5 h-0.5 rounded-full bg-gray-100">
-                <div className="h-full rounded-full bg-indigo-400/65" style={{ width: `${item.pct}%` }} />
-              </div>
+          <div key={item.reason}>
+            <div className="mb-1 flex justify-between">
+              <span className="text-xs font-medium text-gray-900">{item.reason}</span>
+              <span className="font-heading text-[11px] text-gray-400">{item.pct}%</span>
             </div>
-            <span className="font-mono text-[11px] text-gray-400">{item.count}</span>
+            <div className="h-1.5 overflow-hidden rounded-full bg-gray-100">
+              <div className={`h-full rounded-full ${BAR_COLORS[i] ?? "bg-indigo-300"}`} style={{ width: `${item.pct}%` }} />
+            </div>
           </div>
         ))}
       </div>

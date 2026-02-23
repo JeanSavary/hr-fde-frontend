@@ -69,17 +69,17 @@ export default function LoadsPage() {
             <div className="grid grid-cols-2 gap-3.5 lg:grid-cols-4">
               <Card className="p-5 shadow-sm">
                 <div className="mb-2 text-xs font-medium uppercase tracking-wider text-gray-400">Available Loads</div>
-                <div className="font-mono text-2xl font-bold text-gray-900">{allLoads.length}</div>
+                <div className="font-heading text-2xl font-semibold tracking-wide text-gray-900">{allLoads.length}</div>
               </Card>
               {criticalCount > 0 && (
                 <Card className="border-rose-200 p-5 shadow-sm">
                   <div className="mb-2 text-xs font-medium uppercase tracking-wider text-gray-400">Critical Priority</div>
-                  <div className="font-mono text-2xl font-bold text-gray-900">{criticalCount}</div>
+                  <div className="font-heading text-2xl font-semibold tracking-wide text-gray-900">{criticalCount}</div>
                 </Card>
               )}
               <Card className="p-5 shadow-sm">
                 <div className="mb-2 text-xs font-medium uppercase tracking-wider text-gray-400">Avg Rate/Mile</div>
-                <div className="font-mono text-2xl font-bold text-gray-900">${avgRatePerMile.toFixed(2)}</div>
+                <div className="font-heading text-2xl font-semibold tracking-wide text-gray-900">${avgRatePerMile.toFixed(2)}</div>
               </Card>
             </div>
           )}

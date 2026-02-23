@@ -32,7 +32,7 @@ export function NegotiationDepth({ data }: NegotiationDepthProps) {
                   backgroundColor: i === 0 ? "#6366f1" : `rgba(99,102,241,${0.7 - i * 0.15})`,
                 }}
               >
-                <span className="font-mono text-[11px] font-semibold text-white">{item.pct}%</span>
+                <span className="font-heading text-[11px] font-semibold text-white">{item.pct}%</span>
               </div>
             </div>
           </div>

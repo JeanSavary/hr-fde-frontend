@@ -34,7 +34,7 @@ export function MarginDistribution({ bookings }: MarginDistributionProps) {
                 {/* target line at 15% */}
                 <div className="absolute top-0 h-full w-px bg-emerald-400/40" style={{ left: `${(15 / 20) * 100}%` }} />
               </div>
-              <span className={cn("w-9 font-mono text-[11px] font-semibold",
+              <span className={cn("w-9 font-heading text-[11px] font-semibold",
                 margin >= 15 ? "text-emerald-500" : "text-amber-500"
               )}>
                 {margin.toFixed(1)}%

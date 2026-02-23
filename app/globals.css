@@ -7,7 +7,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-satoshi), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-clash-grotesk), ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -123,6 +124,37 @@
 
 .animate-fade-in {
   animation: fadeIn 0.2s ease-out;
+}
+
+.cross-card {
+  --cross-extend: 6px;
+  --cross-color: #d1d5db;
+}
+
+/* Horizontal borders that overshoot left & right */
+.cross-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(-1 * var(--cross-extend));
+  right: calc(-1 * var(--cross-extend));
+  border-top: 1px solid var(--cross-color);
+  border-bottom: 1px solid var(--cross-color);
+  pointer-events: none;
+}
+
+/* Vertical borders that overshoot top & bottom */
+.cross-card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(-1 * var(--cross-extend));
+  bottom: calc(-1 * var(--cross-extend));
+  border-left: 1px solid var(--cross-color);
+  border-right: 1px solid var(--cross-color);
+  pointer-events: none;
 }
 
 @layer base {

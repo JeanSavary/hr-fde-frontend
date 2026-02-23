@@ -12,7 +12,6 @@ export default function AnalyticsPage() {
 
   return (
     <div className="space-y-5">
-      <h1 className="text-2xl font-semibold text-gray-900">Analytics</h1>
       {error && !data ? (
         // If analytics endpoint doesn't exist yet, show with default data
         <div className="grid grid-cols-1 gap-3.5 lg:grid-cols-2">

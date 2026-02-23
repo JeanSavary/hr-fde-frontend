@@ -72,12 +72,12 @@ export function NegotiationForm({ initialSettings }: NegotiationFormProps) {
   const bL = Math.round(settings.max_bump_above_loadboard * 100);
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-4">
       <div className="grid grid-cols-1 gap-3.5 lg:grid-cols-2">
         {/* Pricing & Margins */}
-        <Card className="p-5 shadow-sm">
+        <Card className="p-4 shadow-sm">
           <h3 className="text-sm font-semibold text-gray-900">Pricing & Margins</h3>
-          <p className="mb-5 text-xs text-gray-400">Controls how the AI agent negotiates rates with carriers</p>
+          <p className="mb-3 text-xs text-gray-400">Controls how the AI agent negotiates rates with carriers</p>
           {[
             { label: "Target Margin", desc: "Ideal margin the agent aims for on every deal", value: tM, unit: "%", min: 5, max: 30, onChange: (v: number) => update("target_margin", v / 100) },
             { label: "Minimum Margin", desc: "Absolute floor — agent will never go below this", value: mM, unit: "%", min: 1, max: 20, onChange: (v: number) => update("min_margin", v / 100) },
@@ -88,9 +88,9 @@ export function NegotiationForm({ initialSettings }: NegotiationFormProps) {
         </Card>
 
         {/* Negotiation Behavior */}
-        <Card className="p-5 shadow-sm">
+        <Card className="p-4 shadow-sm">
           <h3 className="text-sm font-semibold text-gray-900">Negotiation Behavior</h3>
-          <p className="mb-5 text-xs text-gray-400">Rules governing how the AI conducts negotiations</p>
+          <p className="mb-3 text-xs text-gray-400">Rules governing how the AI conducts negotiations</p>
           {[
             { label: "Max Negotiation Rounds", desc: "Rounds before the agent stops negotiating", value: settings.max_negotiation_rounds, min: 1, max: 5, onChange: (v: number) => update("max_negotiation_rounds", v) },
             { label: "Max Offers Per Call", desc: "Different loads to pitch in a single call", value: settings.max_offers_per_call, min: 1, max: 5, onChange: (v: number) => update("max_offers_per_call", v) },
@@ -102,15 +102,15 @@ export function NegotiationForm({ initialSettings }: NegotiationFormProps) {
         </Card>
 
         {/* Smart Features */}
-        <Card className="p-5 shadow-sm">
+        <Card className="p-4 shadow-sm">
           <h3 className="text-sm font-semibold text-gray-900">Smart Features</h3>
-          <p className="mb-5 text-xs text-gray-400">Toggle intelligent behaviors for the AI agent</p>
+          <p className="mb-3 text-xs text-gray-400">Toggle intelligent behaviors for the AI agent</p>
           {[
             { key: "floor_rate_protection" as const, label: "Floor Rate Protection", desc: "Prevent agent from accepting rates below minimum margin" },
             { key: "sentiment_escalation" as const, label: "Sentiment Escalation", desc: "Auto-transfer to human when carrier sentiment turns very negative" },
             { key: "prioritize_perishables" as const, label: "Prioritize Perishables", desc: "Pitch temperature-controlled loads first when urgency is high" },
           ].map((s, i) => (
-            <div key={s.key} className={`flex items-center justify-between py-3 ${i < 2 ? "border-b border-gray-100" : ""}`}>
+            <div key={s.key} className={`flex items-center justify-between py-2.5 ${i < 2 ? "border-b border-gray-100" : ""}`}>
               <div>
                 <div className="text-[13px] font-medium text-gray-900">{s.label}</div>
                 <div className="text-[11px] text-gray-400">{s.desc}</div>
@@ -126,11 +126,11 @@ export function NegotiationForm({ initialSettings }: NegotiationFormProps) {
         </Card>
 
         {/* Agent Voice & Greeting */}
-        <Card className="p-5 shadow-sm">
+        <Card className="p-4 shadow-sm">
           <h3 className="text-sm font-semibold text-gray-900">Agent Voice & Greeting</h3>
-          <p className="mb-5 text-xs text-gray-400">Customize how the AI agent sounds and introduces itself</p>
-          <div className="mb-4">
-            <div className="mb-2 text-[13px] font-medium text-gray-900">Tone</div>
+          <p className="mb-3 text-xs text-gray-400">Customize how the AI agent sounds and introduces itself</p>
+          <div className="mb-3">
+            <div className="mb-1.5 text-[13px] font-medium text-gray-900">Tone</div>
             <div className="flex gap-1.5">
               {(["professional", "friendly", "direct"] as const).map((t) => (
                 <button
@@ -190,7 +190,7 @@ function SliderField({ label, desc, value, unit, min, max, step, onChange }: {
   label: string; desc: string; value: number; unit?: string; min: number; max: number; step?: number; onChange: (v: number) => void;
 }) {
   return (
-    <div className="mb-5">
+    <div className="mb-3">
       <div className="mb-1.5 flex items-center justify-between">
         <div>
           <div className="text-[13px] font-medium text-gray-900">{label}</div>

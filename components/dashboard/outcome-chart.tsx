@@ -1,6 +1,6 @@
 "use client";
 
-import { Card } from "@/components/ui/card";
+import { CrossCard } from "@/components/ui/cross-card";
 import { OUTCOME_CONFIG, OUTCOME_CHART_COLORS } from "@/lib/constants";
 
 interface OutcomeChartProps {
@@ -13,7 +13,7 @@ export function OutcomeChart({ data }: OutcomeChartProps) {
     .sort(([, a], [, b]) => b - a);
 
   return (
-    <Card className="p-5 shadow-sm">
+    <CrossCard>
       <h3 className="mb-3.5 text-sm font-semibold text-gray-900">Call Outcomes</h3>
       <div className="space-y-1.5">
         {entries.map(([key, count]) => (
@@ -25,7 +25,7 @@ export function OutcomeChart({ data }: OutcomeChartProps) {
             <span className="flex-1 text-xs text-gray-500">
               {OUTCOME_CONFIG[key as keyof typeof OUTCOME_CONFIG]?.label ?? key}
             </span>
-            <span className="font-mono text-xs font-semibold text-gray-900">{count}</span>
+            <span className="font-heading text-xs font-semibold text-gray-900">{count}</span>
           </div>
         ))}
       </div>
@@ -41,6 +41,6 @@ export function OutcomeChart({ data }: OutcomeChartProps) {
           />
         ))}
       </div>
-    </Card>
+    </CrossCard>
   );
 }

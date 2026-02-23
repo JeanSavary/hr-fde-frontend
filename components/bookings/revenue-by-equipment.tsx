@@ -37,7 +37,7 @@ export function RevenueByEquipment({ bookings }: RevenueByEquipmentProps) {
                 <span className="text-xs font-medium text-gray-900">
                   {label} <span className="font-normal text-gray-400">({data.count} loads)</span>
                 </span>
-                <span className="font-mono text-xs font-semibold text-gray-900">
+                <span className="font-heading text-xs font-semibold text-gray-900">
                   ${(data.revenue / 1000).toFixed(1)}k
                 </span>
               </div>

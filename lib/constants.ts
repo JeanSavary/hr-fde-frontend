@@ -10,12 +10,12 @@ export const OUTCOME_CONFIG: Record<CallOutcome, { label: string; bg: string; te
   dropped_call: { label: "Dropped", bg: "bg-red-50", text: "text-red-700" },
 };
 
-export const SENTIMENT_CONFIG: Record<Sentiment, { label: string; bg: string; text: string }> = {
-  positive: { label: "Positive", bg: "bg-emerald-50", text: "text-emerald-700" },
-  neutral: { label: "Neutral", bg: "bg-gray-100", text: "text-gray-600" },
-  frustrated: { label: "Frustrated", bg: "bg-amber-50", text: "text-amber-700" },
-  aggressive: { label: "Aggressive", bg: "bg-rose-50", text: "text-rose-700" },
-  confused: { label: "Confused", bg: "bg-violet-50", text: "text-violet-700" },
+export const SENTIMENT_CONFIG: Record<Sentiment, { label: string; bg: string; text: string; border: string }> = {
+  positive: { label: "Positive", bg: "bg-emerald-50", text: "text-emerald-600", border: "border-emerald-200" },
+  neutral: { label: "Neutral", bg: "bg-gray-100", text: "text-gray-500", border: "border-gray-300" },
+  frustrated: { label: "Frustrated", bg: "bg-amber-50", text: "text-amber-600", border: "border-amber-200" },
+  aggressive: { label: "Aggressive", bg: "bg-red-50", text: "text-red-600", border: "border-red-200" },
+  confused: { label: "Confused", bg: "bg-violet-50", text: "text-violet-600", border: "border-violet-200" },
 };
 
 export const EQUIPMENT_CONFIG: Record<EquipmentType, { label: string }> = {
@@ -49,11 +49,11 @@ export const SENTIMENT_CHART_COLORS: Record<string, string> = {
 };
 
 export const EQUIPMENT_BADGE_CONFIG: Record<string, { bg: string; text: string; border: string }> = {
-  dry_van: { bg: "bg-indigo-50", text: "text-indigo-700", border: "border-indigo-200" },
-  reefer: { bg: "bg-cyan-50", text: "text-cyan-700", border: "border-cyan-200" },
-  flatbed: { bg: "bg-purple-50", text: "text-purple-700", border: "border-purple-200" },
-  step_deck: { bg: "bg-amber-50", text: "text-amber-700", border: "border-amber-200" },
-  power_only: { bg: "bg-gray-100", text: "text-gray-600", border: "border-gray-200" },
+  dry_van: { bg: "bg-indigo-50", text: "text-indigo-600", border: "border-indigo-200" },
+  reefer: { bg: "bg-cyan-50", text: "text-teal-600", border: "border-cyan-200" },
+  flatbed: { bg: "bg-purple-50", text: "text-purple-600", border: "border-purple-200" },
+  step_deck: { bg: "bg-amber-50", text: "text-amber-600", border: "border-amber-200" },
+  power_only: { bg: "bg-gray-100", text: "text-gray-500", border: "border-gray-300" },
 };
 
 export const URGENCY_CONFIG: Record<string, { label: string; bg: string; text: string; border: string }> = {

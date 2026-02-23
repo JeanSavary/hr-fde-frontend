@@ -1,6 +1,6 @@
 "use client";
 
-import { Card } from "@/components/ui/card";
+import { CrossCard } from "@/components/ui/cross-card";
 import { SENTIMENT_CONFIG, SENTIMENT_CHART_COLORS } from "@/lib/constants";
 
 interface SentimentChartProps {
@@ -12,7 +12,7 @@ export function SentimentChart({ data }: SentimentChartProps) {
   const entries = Object.entries(data).filter(([, v]) => v > 0);
 
   return (
-    <Card className="p-5 shadow-sm">
+    <CrossCard>
       <h3 className="mb-3.5 text-sm font-semibold text-gray-900">Carrier Sentiment</h3>
       <div className="space-y-3">
         {entries.map(([key, count]) => {
@@ -24,7 +24,7 @@ export function SentimentChart({ data }: SentimentChartProps) {
                 <span className="text-xs text-gray-500">
                   {SENTIMENT_CONFIG[key as keyof typeof SENTIMENT_CONFIG]?.label ?? key}
                 </span>
-                <span className="font-mono text-xs font-semibold text-gray-900">{pct}%</span>
+                <span className="font-heading text-xs font-semibold text-gray-900">{pct}%</span>
               </div>
               <div className="h-1.5 overflow-hidden rounded-full bg-gray-100">
                 <div
@@ -36,6 +36,6 @@ export function SentimentChart({ data }: SentimentChartProps) {
           );
         })}
       </div>
-    </Card>
+    </CrossCard>
   );
 }
