@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Download } from "lucide-react";
+import { downloadCSV } from "@/lib/csv";
 import { CallFilters } from "@/components/calls/call-filters";
 import { CallsTable } from "@/components/calls/calls-table";
 import { useCalls } from "@/lib/swr";
@@ -29,9 +30,26 @@ export default function CallsPage() {
     setPage(1);
   };
 
+  const handleExport = () => {
+    if (!data) return;
+    const headers = ["Call ID", "Carrier", "MC#", "Origin", "Destination", "Outcome", "Sentiment", "Duration", "Created"];
+    const rows = data.items.map((c) => [
+      c.call_id, c.carrier_name ?? "", c.mc_number ?? "",
+      c.lane_origin ?? "", c.lane_destination ?? "",
+      c.outcome, c.sentiment,
+      String(c.duration_seconds ?? ""), c.created_at,
+    ]);
+    downloadCSV("calls.csv", headers, rows);
+  };
+
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-semibold text-gray-900">Calls</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-semibold text-gray-900">Calls</h1>
+        <Button variant="outline" size="sm" onClick={handleExport} disabled={!data}>
+          <Download className="mr-2 h-4 w-4" />Export CSV
+        </Button>
+      </div>
       <CallFilters onFilterChange={handleFilterChange} />
       {error && !data ? (
         <Card className="shadow-sm">
