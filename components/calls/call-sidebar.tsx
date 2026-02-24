@@ -18,10 +18,12 @@ interface CallSidebarProps {
 }
 
 export function CallSidebar({ call, onClose }: CallSidebarProps) {
+  const hasInitial = call.initial_rate != null && call.initial_rate > 0;
+  const hasFinal = call.final_rate != null && call.final_rate > 0;
   const rateDiff =
-    call.initial_rate && call.final_rate
+    hasInitial && hasFinal
       ? (
-          ((call.final_rate - call.initial_rate) / call.initial_rate) *
+          ((call.final_rate! - call.initial_rate!) / call.initial_rate!) *
           100
         ).toFixed(1)
       : null;
@@ -119,24 +121,24 @@ export function CallSidebar({ call, onClose }: CallSidebarProps) {
         </div>
 
         {/* Rate summary */}
-        {(call.initial_rate || call.final_rate) && (
+        {(hasInitial || hasFinal) && (
           <div className="flex items-end gap-2 rounded-lg bg-gray-50 px-3 py-2.5">
-            {call.initial_rate && (
+            {hasInitial && (
               <div>
                 <div className="text-[10px] text-gray-400">Initial</div>
                 <div className="text-sm font-bold tabular-nums text-gray-900">
-                  {formatCurrency(call.initial_rate)}
+                  {formatCurrency(call.initial_rate!)}
                 </div>
               </div>
             )}
-            {call.final_rate && call.initial_rate && (
+            {hasFinal && hasInitial && (
               <span className="mb-0.5 text-xs text-gray-300">&rarr;</span>
             )}
-            {call.final_rate && (
+            {hasFinal && (
               <div>
                 <div className="text-[10px] text-gray-400">Final</div>
                 <div className="text-sm font-bold tabular-nums text-gray-900">
-                  {formatCurrency(call.final_rate)}
+                  {formatCurrency(call.final_rate!)}
                 </div>
               </div>
             )}
@@ -184,7 +186,7 @@ function buildTimeline(call: CallSummary) {
       : formatLane(call.lane_origin, call.lane_destination),
   });
 
-  if (call.initial_rate) {
+  if (call.initial_rate != null && call.initial_rate > 0) {
     steps.push({
       label: "Initial offer",
       detail: `${formatCurrency(call.initial_rate)} (loadboard rate)`,
@@ -213,7 +215,7 @@ function buildTimeline(call: CallSummary) {
 
   steps.push({
     label: outcomeMap[call.outcome] ?? call.outcome,
-    detail: call.final_rate
+    detail: call.final_rate != null && call.final_rate > 0
       ? `Final rate: ${formatCurrency(call.final_rate)}`
       : "Call ended",
   });

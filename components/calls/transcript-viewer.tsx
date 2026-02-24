@@ -29,24 +29,45 @@ function parseTranscript(raw: string): ParsedMessage[] {
     // Not JSON — fall through to line-based parsing
   }
 
-  return raw
-    .split("\n")
-    .filter((line) => line.trim())
-    .map((line) => {
-      if (line.match(/^(agent|assistant|ai):/i)) {
-        return {
-          role: "agent" as const,
-          content: line.replace(/^(agent|assistant|ai):\s*/i, ""),
-        };
-      }
-      if (line.match(/^(carrier|user|caller):/i)) {
-        return {
-          role: "carrier" as const,
-          content: line.replace(/^(carrier|user|caller):\s*/i, ""),
-        };
-      }
-      return { role: "system" as const, content: line };
-    });
+  // Detect speaker names from "Name: text" pattern
+  // Lines with a known carrier keyword are carrier; lines starting with
+  // "Carrier" label are carrier; everything else with a "Name:" prefix is agent.
+  const lines = raw.split("\n").filter((line) => line.trim());
+  const carrierPattern = /^(carrier|user|caller):/i;
+  const agentPattern = /^(agent|assistant|ai):/i;
+  // Matches any "Name:" prefix (e.g. "Mathew:", "John:")
+  const namedSpeakerPattern = /^([A-Z][a-zA-Z]+):\s*/;
+
+  return lines.map((line) => {
+    if (agentPattern.test(line)) {
+      return {
+        role: "agent" as const,
+        content: line.replace(agentPattern, ""),
+      };
+    }
+    if (carrierPattern.test(line)) {
+      return {
+        role: "carrier" as const,
+        content: line.replace(carrierPattern, ""),
+      };
+    }
+    // "Carrier" label in the content itself (from HappyRobot transcripts)
+    if (line.startsWith("Carrier")) {
+      return {
+        role: "carrier" as const,
+        content: line.replace(/^Carrier\s*/, ""),
+      };
+    }
+    // Any "Name: text" line — treat as agent (the AI has a name)
+    const namedMatch = line.match(namedSpeakerPattern);
+    if (namedMatch) {
+      return {
+        role: "agent" as const,
+        content: line.replace(namedSpeakerPattern, ""),
+      };
+    }
+    return { role: "system" as const, content: line };
+  });
 }
 
 export function TranscriptViewer({ transcript }: TranscriptViewerProps) {
