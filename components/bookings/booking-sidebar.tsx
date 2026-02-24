@@ -62,7 +62,7 @@ export function BookingSidebar({ booking, onClose }: BookingSidebarProps) {
                 {formatCurrency(b.agreed_rate)}
               </span>
             </div>
-            {b.margin != null && (
+            {b.margin != null && b.margin > 0 && (
               <div className="flex justify-between text-sm">
                 <span className="text-gray-400">Margin</span>
                 <span
@@ -70,9 +70,9 @@ export function BookingSidebar({ booking, onClose }: BookingSidebarProps) {
                     "font-mono font-semibold",
                     b.margin >= 15
                       ? "text-emerald-500"
-                      : b.margin >= 10
-                        ? "text-amber-500"
-                        : "text-rose-500",
+                      : b.margin < 5
+                        ? "text-rose-500"
+                        : "text-indigo-500",
                   )}
                 >
                   {b.margin.toFixed(1)}%
