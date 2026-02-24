@@ -173,7 +173,7 @@ export default function CallsPage() {
             <div className="text-[10px] font-semibold uppercase tracking-wider text-gray-400">
               Avg Negotiation
             </div>
-            <div className="mt-0.5 font-heading text-lg font-semibold tracking-wide text-gray-900">
+            <div className={`mt-0.5 font-heading text-lg font-semibold tracking-wide ${kpis.avgNegotiationPct <= 0 ? "text-emerald-600" : "text-rose-600"}`}>
               {kpis.avgNegotiationPct.toFixed(1)}%
             </div>
           </div>

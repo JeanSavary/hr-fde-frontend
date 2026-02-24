@@ -145,7 +145,7 @@ export function CallSidebar({ call, onClose }: CallSidebarProps) {
             {rateDiff && (
               <div
                 className={`mb-0.5 ml-auto rounded-full px-1.5 py-0.5 text-[10px] font-semibold ${
-                  Number(rateDiff) >= 0
+                  Number(rateDiff) <= 0
                     ? "bg-emerald-50 text-emerald-600"
                     : "bg-rose-50 text-rose-600"
                 }`}
