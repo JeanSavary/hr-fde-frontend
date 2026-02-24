@@ -8,10 +8,12 @@ interface CallSidebarProps {
 }
 
 export function CallSidebar({ call }: CallSidebarProps) {
+  const hasInitial = call.initial_rate != null && call.initial_rate > 0;
+  const hasFinal = call.final_rate != null && call.final_rate > 0;
   const rateDiff =
-    call.initial_rate && call.final_rate
+    hasInitial && hasFinal
       ? (
-          ((call.final_rate - call.initial_rate) / call.initial_rate) *
+          ((call.final_rate! - call.initial_rate!) / call.initial_rate!) *
           100
         ).toFixed(1)
       : null;
@@ -19,24 +21,27 @@ export function CallSidebar({ call }: CallSidebarProps) {
   return (
     <div className="space-y-0 divide-y divide-gray-100">
       {/* Rate Negotiation */}
+      {(hasInitial || hasFinal) && (
       <div className="pb-5">
         <div className="mb-3 text-[10px] font-semibold uppercase tracking-wider text-gray-400">
           Rate Negotiation
         </div>
         <div className="flex items-end gap-3">
+          {hasInitial && (
           <div>
             <div className="text-[10px] text-gray-400">Initial</div>
             <div className="text-lg font-bold tabular-nums text-gray-900">
-              {formatCurrency(call.initial_rate)}
+              {formatCurrency(call.initial_rate!)}
             </div>
           </div>
-          {call.final_rate && call.initial_rate && (
+          )}
+          {hasFinal && hasInitial && (
             <>
               <div className="mb-1 text-gray-300">&rarr;</div>
               <div>
                 <div className="text-[10px] text-gray-400">Final</div>
                 <div className="text-lg font-bold tabular-nums text-gray-900">
-                  {formatCurrency(call.final_rate)}
+                  {formatCurrency(call.final_rate!)}
                 </div>
               </div>
               {rateDiff && (
@@ -53,6 +58,14 @@ export function CallSidebar({ call }: CallSidebarProps) {
               )}
             </>
           )}
+          {hasFinal && !hasInitial && (
+            <div>
+              <div className="text-[10px] text-gray-400">Final</div>
+              <div className="text-lg font-bold tabular-nums text-gray-900">
+                {formatCurrency(call.final_rate!)}
+              </div>
+            </div>
+          )}
         </div>
         {call.negotiation_rounds > 0 && (
           <div className="mt-2 text-[11px] text-gray-400">
@@ -61,6 +74,7 @@ export function CallSidebar({ call }: CallSidebarProps) {
           </div>
         )}
       </div>
+      )}
 
       {/* Negotiation Timeline */}
       <div className="py-5">
@@ -134,7 +148,7 @@ function buildTimeline(call: CallDetail) {
         }),
   });
 
-  if (call.initial_rate) {
+  if (call.initial_rate != null && call.initial_rate > 0) {
     steps.push({
       label: "Initial offer",
       detail: `${formatCurrency(call.initial_rate)} (loadboard rate)`,
@@ -163,7 +177,7 @@ function buildTimeline(call: CallDetail) {
 
   steps.push({
     label: outcomeMap[call.outcome] ?? call.outcome,
-    detail: call.final_rate
+    detail: call.final_rate != null && call.final_rate > 0
       ? `Final rate: ${formatCurrency(call.final_rate)}`
       : "Call ended",
   });
