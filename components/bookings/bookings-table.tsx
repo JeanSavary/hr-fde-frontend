@@ -9,10 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { BookedLoad } from "@/lib/types";
-import {
-  SentimentBadge,
-  EquipmentBadge,
-} from "@/components/shared/status-badge";
+import { EquipmentBadge } from "@/components/shared/status-badge";
 import { formatCurrency, formatDateTime, formatLane, cn } from "@/lib/utils";
 
 interface BookingsTableProps {
@@ -50,9 +47,6 @@ export function BookingsTable({
             <TableHead className="text-xs font-semibold text-right">
               Margin
             </TableHead>
-          )}
-          {hasExtendedData && (
-            <TableHead className="text-xs font-semibold">Sentiment</TableHead>
           )}
           <TableHead className="pr-6 text-xs font-semibold text-right">
             Booked
@@ -113,15 +107,6 @@ export function BookingsTable({
                   >
                     {b.margin.toFixed(1)}%
                   </span>
-                ) : (
-                  <span className="text-xs text-gray-500">&mdash;</span>
-                )}
-              </TableCell>
-            )}
-            {hasExtendedData && (
-              <TableCell>
-                {b.sentiment ? (
-                  <SentimentBadge sentiment={b.sentiment} />
                 ) : (
                   <span className="text-xs text-gray-500">&mdash;</span>
                 )}
