@@ -234,6 +234,7 @@ export interface PaginatedResponse<T> {
   kpi_booking_rate?: number;
   kpi_avg_duration?: number;
   kpi_total_duration?: number;
+  kpi_avg_negotiation_pct?: number;
 }
 
 // === Analytics Types ===

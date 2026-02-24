@@ -54,6 +54,7 @@ export default function CallsPage() {
         bookingRate: data.kpi_booking_rate ?? 0,
         avgDuration: data.kpi_avg_duration ?? 0,
         totalDuration: data.kpi_total_duration ?? 0,
+        avgNegotiationPct: data.kpi_avg_negotiation_pct ?? 0,
       };
     }
     // Fallback: compute from current page data
@@ -69,7 +70,7 @@ export default function CallsPage() {
       (s, c) => s + (c.duration_seconds ?? 0),
       0,
     );
-    return { totalCalls: data?.total ?? calls.length, bookingRate, avgDuration, totalDuration };
+    return { totalCalls: data?.total ?? calls.length, bookingRate, avgDuration, totalDuration, avgNegotiationPct: 0 };
   }, [calls, data]);
 
   const handleFilterChange = (newFilters: Partial<typeof filters>) => {
@@ -133,7 +134,7 @@ export default function CallsPage() {
         </div>
       </div>
       {data && kpis && (
-        <div className="grid grid-cols-4 gap-px overflow-hidden rounded-md border border-gray-200 bg-gray-200">
+        <div className="grid grid-cols-5 gap-px overflow-hidden rounded-md border border-gray-200 bg-gray-200">
           <div className="bg-white px-4 py-3">
             <div className="text-[10px] font-semibold uppercase tracking-wider text-gray-400">
               Total Calls
@@ -166,6 +167,14 @@ export default function CallsPage() {
             </div>
             <div className="mt-0.5 font-heading text-lg font-semibold tracking-wide text-gray-900">
               {formatDuration(Math.round(kpis.totalDuration))}
+            </div>
+          </div>
+          <div className="bg-white px-4 py-3">
+            <div className="text-[10px] font-semibold uppercase tracking-wider text-gray-400">
+              Avg Negotiation
+            </div>
+            <div className="mt-0.5 font-heading text-lg font-semibold tracking-wide text-gray-900">
+              {kpis.avgNegotiationPct.toFixed(1)}%
             </div>
           </div>
         </div>
