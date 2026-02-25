@@ -35,7 +35,7 @@ function parseTranscript(raw: string): ParsedMessage[] {
   const lines = raw.split("\n").filter((line) => line.trim());
   const carrierPattern = /^(carrier|user|caller):/i;
   const agentPattern = /^(agent|assistant|ai):/i;
-  // Matches any "Name:" prefix (e.g. "Mathew:", "John:")
+  // Matches any "Name:" prefix (e.g. "Matthew:", "John:")
   const namedSpeakerPattern = /^([A-Z][a-zA-Z]+):\s*/;
 
   return lines.map((line) => {

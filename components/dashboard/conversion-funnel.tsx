@@ -8,7 +8,16 @@ interface ConversionFunnelProps {
 }
 
 export function ConversionFunnel({ metrics }: ConversionFunnelProps) {
-  const funnelData = metrics.funnel_data ?? deriveFunnel(metrics);
+  const rawFunnel = metrics.funnel_data ?? deriveFunnel(metrics);
+  // Backend funnel_data may have stale "Booked" count — patch it with the
+  // authoritative value from calls_by_outcome.
+  const actualBooked = metrics.calls_by_outcome?.booked ?? 0;
+  const total = metrics.total_calls || 1;
+  const funnelData = rawFunnel.map((stage) =>
+    stage.stage === "Booked"
+      ? { ...stage, count: actualBooked, pct: Math.round((actualBooked / total) * 100) }
+      : stage
+  );
 
   return (
     <Card className="p-5">

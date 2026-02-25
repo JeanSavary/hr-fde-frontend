@@ -119,7 +119,7 @@ export function Sidebar() {
         {!collapsed && (
           <div className="overflow-hidden">
             <div className="truncate text-[13px] font-medium text-gray-900">
-              Mathew Adams
+              Matthew Adams
             </div>
             <div className="truncate text-[10px] text-gray-400">
               Operations Lead
