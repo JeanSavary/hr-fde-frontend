@@ -41,7 +41,7 @@ Browser ──► Next.js Client Components (SWR polling)
          (proxy layer — API keys never reach the browser)
                 │
                 ▼
-         FastAPI Backend (Railway)
+         FastAPI Backend (Fly.io)
          (FMCSA verification, load search, rate engine, booking)
                 │
                 ▼
@@ -57,7 +57,7 @@ Server Components fetch initial data at request time and pass it as props to Cli
 
 - **Node.js** >= 18
 - **npm** (ships with Node)
-- Access to the backend API (FastAPI on Railway)
+- Access to the backend API (FastAPI on Fly.io)
 
 ### 1. Clone the repository
 
@@ -78,7 +78,7 @@ Create a `.env.local` file at the project root:
 
 ```env
 # Required — FastAPI backend
-BACKEND_API_URL=https://your-backend.railway.app
+BACKEND_API_URL=https://your-backend.Fly.io.app
 BACKEND_API_KEY=your-api-key
 
 # Optional — HappyRobot integration (enables audio playback & extended call data)
@@ -117,22 +117,22 @@ The production server starts on port 3000 by default.
 ### Build the image
 
 ```bash
-docker build -t carrier-dashboard .
+docker build -t brokers-ops-dashboard .
 ```
 
 ### Run the container
 
 ```bash
 docker run -p 3000:3000 \
-  -e BACKEND_API_URL=https://your-backend.railway.app \
+  -e BACKEND_API_URL=https://your-backend.Fly.io.app \
   -e BACKEND_API_KEY=your-api-key \
-  carrier-dashboard
+  brokers-ops-dashboard
 ```
 
 Or use an env file:
 
 ```bash
-docker run -p 3000:3000 --env-file .env.local carrier-dashboard
+docker run -p 3000:3000 --env-file .env.local brokers-ops-dashboard
 ```
 
 ### Docker Compose (optional)
