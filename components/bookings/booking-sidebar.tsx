@@ -68,11 +68,9 @@ export function BookingSidebar({ booking, onClose }: BookingSidebarProps) {
                 <span
                   className={cn(
                     "font-mono font-semibold",
-                    b.margin >= 15
+                    b.margin <= 5
                       ? "text-emerald-500"
-                      : b.margin < 5
-                        ? "text-rose-500"
-                        : "text-indigo-500",
+                      : "text-rose-500",
                   )}
                 >
                   {b.margin.toFixed(1)}%

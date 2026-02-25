@@ -23,18 +23,20 @@ export function BookingsSummary({ bookings, response }: BookingsSummaryProps) {
     : bookings.length
       ? bookings.reduce((s, b) => s + (b.margin ?? 0), 0) / bookings.length
       : 0;
-  const avgRounds = hasBackendKpis
-    ? (response.kpi_avg_rounds ?? 0)
-    : bookings.length
-      ? bookings.reduce((s, b) => s + (b.negotiation_rounds ?? 0), 0) /
-        bookings.length
-      : 0;
+  const totalSaved = bookings.reduce(
+    (s, b) =>
+      s +
+      (b.loadboard_rate != null && b.loadboard_rate > 0
+        ? b.loadboard_rate - b.agreed_rate
+        : 0),
+    0,
+  );
   const hasMarginData = hasBackendKpis
     ? response.kpi_avg_margin != null
     : bookings.some((b) => b.margin != null);
-  const hasRoundsData = hasBackendKpis
-    ? response.kpi_avg_rounds != null
-    : bookings.some((b) => b.negotiation_rounds != null);
+  const hasSavingsData = bookings.some(
+    (b) => b.loadboard_rate != null && b.loadboard_rate > 0,
+  );
 
   const metrics = [
     { label: "Booked", value: totalBookings.toString() },
@@ -49,16 +51,19 @@ export function BookingsSummary({ bookings, response }: BookingsSummaryProps) {
       label: "Avg Margin",
       value: hasMarginData ? `${avgMargin.toFixed(1)}%` : "\u2014",
       color: hasMarginData
-        ? avgMargin >= 15
+        ? avgMargin <= 5
           ? "text-emerald-600"
-          : avgMargin < 5
-            ? "text-rose-600"
-            : "text-indigo-600"
+          : "text-rose-600"
         : undefined,
     },
     {
-      label: "Avg Rounds",
-      value: hasRoundsData ? avgRounds.toFixed(1) : "\u2014",
+      label: "Total Saved",
+      value: hasSavingsData
+        ? totalSaved >= 1000
+          ? `$${(totalSaved / 1000).toFixed(1)}k`
+          : formatCurrency(totalSaved)
+        : "\u2014",
+      color: hasSavingsData && totalSaved > 0 ? "text-emerald-600" : undefined,
     },
   ];
 
