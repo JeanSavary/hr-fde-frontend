@@ -43,7 +43,7 @@ export default function LoadsPage() {
     page_size: pageSize,
     period,
     sort_by: "urgency,pickup_datetime",
-    sort_order: "desc,asc",
+    sort_order: "desc",
   });
 
   const allLoads = data?.loads ?? [];
