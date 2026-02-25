@@ -19,22 +19,6 @@ interface LoadsTableProps {
 }
 
 export function LoadsTable({ loads, exactCount, onSelect }: LoadsTableProps) {
-  const sorted = [...loads].sort((a, b) => {
-    const urgOrder: Record<string, number> = {
-      critical: 0,
-      high: 1,
-      normal: 2,
-    };
-    const urgDiff =
-      (urgOrder[a.urgency ?? "normal"] ?? 2) -
-      (urgOrder[b.urgency ?? "normal"] ?? 2);
-    if (urgDiff !== 0) return urgDiff;
-    // Secondary sort: earliest pickup first
-    const aTime = a.pickup_datetime ? new Date(a.pickup_datetime).getTime() : Infinity;
-    const bTime = b.pickup_datetime ? new Date(b.pickup_datetime).getTime() : Infinity;
-    return aTime - bTime;
-  });
-
   const hasUrgency = loads.some((l) => l.urgency != null);
   return (
     <Table>
@@ -55,7 +39,7 @@ export function LoadsTable({ loads, exactCount, onSelect }: LoadsTableProps) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {sorted.map((load, index) => (
+        {loads.map((load, index) => (
           <TableRow
             key={load.load_id}
             className={cn(
