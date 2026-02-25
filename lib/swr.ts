@@ -95,6 +95,8 @@ export function useLoads(filters: {
   page?: number;
   page_size?: number;
   period?: string;
+  sort_by?: string;
+  sort_order?: string;
 }) {
   // Build GET query params
   const params = new URLSearchParams();
@@ -104,6 +106,8 @@ export function useLoads(filters: {
   if (filters.page) params.set("page", String(filters.page));
   if (filters.page_size) params.set("page_size", String(filters.page_size));
   if (filters.period) params.set("period", filters.period);
+  if (filters.sort_by) params.set("sort_by", filters.sort_by);
+  if (filters.sort_order) params.set("sort_order", filters.sort_order);
   const qs = params.toString();
   const key = `/api/loads${qs ? `?${qs}` : ""}`;
 

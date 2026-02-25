@@ -25,10 +25,14 @@ export function LoadsTable({ loads, exactCount, onSelect }: LoadsTableProps) {
       high: 1,
       normal: 2,
     };
-    return (
+    const urgDiff =
       (urgOrder[a.urgency ?? "normal"] ?? 2) -
-      (urgOrder[b.urgency ?? "normal"] ?? 2)
-    );
+      (urgOrder[b.urgency ?? "normal"] ?? 2);
+    if (urgDiff !== 0) return urgDiff;
+    // Secondary sort: earliest pickup first
+    const aTime = a.pickup_datetime ? new Date(a.pickup_datetime).getTime() : Infinity;
+    const bTime = b.pickup_datetime ? new Date(b.pickup_datetime).getTime() : Infinity;
+    return aTime - bTime;
   });
 
   const hasUrgency = loads.some((l) => l.urgency != null);

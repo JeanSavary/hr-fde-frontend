@@ -18,7 +18,9 @@ export async function getHRRunDetail(runId: string) {
 }
 
 export async function getHRRecordings(runId: string) {
-  return fetchHR<Array<{ session_id: string; url: string }>>(`/runs/${runId}/recordings`);
+  return fetchHR<Array<{ session_id: string; url: string }>>(
+    `/runs/${runId}/recordings`,
+  );
 }
 
 export function isHRConfigured(): boolean {

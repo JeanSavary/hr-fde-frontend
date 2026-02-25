@@ -12,9 +12,24 @@ interface LoadsCardViewProps {
 }
 
 export function LoadsCardView({ loads, onSelect }: LoadsCardViewProps) {
+  const sorted = [...loads].sort((a, b) => {
+    const urgOrder: Record<string, number> = {
+      critical: 0,
+      high: 1,
+      normal: 2,
+    };
+    const urgDiff =
+      (urgOrder[a.urgency ?? "normal"] ?? 2) -
+      (urgOrder[b.urgency ?? "normal"] ?? 2);
+    if (urgDiff !== 0) return urgDiff;
+    const aTime = a.pickup_datetime ? new Date(a.pickup_datetime).getTime() : Infinity;
+    const bTime = b.pickup_datetime ? new Date(b.pickup_datetime).getTime() : Infinity;
+    return aTime - bTime;
+  });
+
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {loads.map((load) => (
+      {sorted.map((load) => (
         <Card
           key={load.load_id}
           className={`cursor-pointer p-4 transition-shadow hover:shadow-md ${load.urgency === "critical" ? "border-rose-200" : ""}`}
